@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sales Engine Dashboard</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    .countdown {
+      font-variant-numeric: tabular-nums;
+    }
+  </style>
+</head>
+<body class="bg-[#003057] text-white p-6 font-sans">
+  <div class="max-w-6xl mx-auto space-y-10">
+
+    <!-- Rotating Quotes / Rules Section with Logo -->
+    <section>
+      <div class="relative bg-white text-[#003057] p-6 rounded shadow-md h-32 flex items-center justify-center">
+        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAABzUlEQVRoge3aTWtUQRjH8c8LtCCiFClHBQVu3EBoGzBBi5xYQ0FOogY20t0s4g4ggTtKCqJB2ExMYaSWNK1aKKWyP1M8vtd2/2/zPHTNwzYz9z7p3M+c+93zp6Aj0A+4Ae4DnIB/gCbAIn4PqALegFtAd8BswF5gLvwG7oYvAy8BeWA84Bn8DzgBHZGwCXiV4eAv4AzQECWAOXgaOAV+B9OBPZ24CjAL3hVJdiMCYwqvn6OGdUexZK3EIOZzAAvDcIAcWeS5O9V3CtAZ+ak6J0MbdvkwCnzSHPSvcAzhCm1MMDUzBEdxlh7g3fkcYg4skMb7HVuEkZ3FQf6XTAU6ENXeRPkwLmjsxlTbcgXcBPqgHMRhi3r9Qn2NbcxDyNMGZXeYTR7DL6AdfwD3inr8awCoO2sbltO9Z7kP7vwtzvwTbpoos6Ro8Hq7PZ1XnFDOAFfAG2ygdDsTIqAHWfwhTgE1dSDEzy8KDjHNdJ3AQ0C34KnV9T8BG1+2Q7m7z4ycuhyRfWkVJZ+PBP5AJuAx8Qe4BOeAx+ALv/2/7oN2l60rZAAAAAElFTkSuQmCC" alt="Sandler Logo" class="absolute top-2 left-4 h-10">
+        <div id="quote" class="text-2xl text-[#003057] italic text-center px-16 w-full"></div>
+      </div>
+    </section>
+
+    <!-- Top 3 Goals -->
+    <section>
+      <h1 class="text-3xl font-bold mb-4 text-yellow-400">25Q3 Goals</h1>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-white text-lg">
+        <div>
+          <li class="font-bold mb-1">10X Pipeline</li>
+          <ul class="list-disc ml-6 text-sm leading-snug text-white">
+            <li>Mark spending X% more on “Producer” Activities (Lead Gen: WATN, Alumni, Podcasts)</li>
+            <li>Chris is on track to $388K</li>
+            <li>We’ve set up 2026</li>
+            <li>10 New proposals</li>
+            <li>Know Packaging: Know players. PakExpo. Win big through NACD.</li>
+            <li>Leverage our partners like: JOB, Alicia</li>
+          </ul>
+        </div>
+        <div>
+          <li class="font-bold mb-1">10X Leads</li>
+          <ul class="list-disc ml-6 text-sm leading-snug text-white">
+            <li>We’re email marketing and LinkedIn messaging our alumni successfully</li>
+            <li>Podcast Doubles Audience to 200 Downloads/Episode</li>
+            <li>We’ve gotten 3 sales (Essentials and Management or Assessments)</li>
+            <li>We’re seeing 30+ Leads/Qtr</li>
+          </ul>
+        </div>
+        <div>
+          <li class="font-bold mb-1">Renewals & Budgets</li>
+          <ul class="list-disc ml-6 text-sm leading-snug text-white">
+            <li>Commitment Monday and Friday of renewal Dashboard</li>
+            <li>We’ve improved the BTN collection and WIIFM for clients</li>
+            <li>Increase LL submissions (WIIFM)</li>
+            <li>Improve better proposals renewal template</li>
+            <li>“No more Mr. Nice guy” Have plan for adding people and being paid</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Countdown Timers -->
+    <section>
+      <h2 class="text-2xl font-semibold mb-4 text-yellow-400">Upcoming Events</h2>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4" id="timers">
+        <!-- Timers will be inserted here -->
+      </div>
+    </section>
+
+  </div>
+
+  <script>
+    // Events Sorted by Date Ascending
+    const events = [
+      { name: "Giro", date: "2025-09-30" },
+      { name: "Altium", date: "2025-10-31" },
+      { name: "Zeta", date: "2025-12-31" },
+      { name: "HH", date: "2025-12-31" },
+      { name: "IPA", date: "2025-12-31" },
+      { name: "Merchology", date: "2025-12-31" },
+      { name: "TradeSchool", date: "2026-02-01" },
+      { name: "MRP", date: "2026-02-02" },
+      { name: "Dornier", date: "2026-04-01" },
+    ];
+
+    const timersDiv = document.getElementById("timers");
+    events.forEach((event, index) => {
+      const div = document.createElement("div");
+      div.className = "bg-white text-[#003057] p-3 rounded shadow-md flex justify-between items-center text-sm md:text-base";
+      div.innerHTML = `
+        <span class="font-semibold">${event.name}</span>
+        <span id="timer-${index}" class="countdown text-blue-600"></span>
+      `;
+      timersDiv.appendChild(div);
+    });
+
+    function updateTimers() {
+      events.forEach((event, index) => {
+        const el = document.getElementById(`timer-${index}`);
+        const target = new Date(event.date);
+        const now = new Date();
+        const diff = target - now;
+        const days = Math.max(0, Math.floor(diff / (1000 * 60 * 60 * 24)));
+        el.textContent = `${days} day${days !== 1 ? 's' : ''} left`;
+      });
+    }
+
+    setInterval(updateTimers, 60000); // update every minute
+    updateTimers();
+
+    // Rotating Quotes from PDF Rules
+    const quotes = [
+      "0% of your selling comes from your Critical Parent.",
+      "A life without risk is a life without growth.",
+      "All prospects lie—all the time.",
+      "Don’t think of it as a sales call; think of it as an interview.",
+      "Failure strengthens your GUTS system.",
+      "Get out of the way of the sale.",
+      "I’m financially independent, and I don’t need the business.",
+      "Never look in your prospect’s pocket.",
+      "No Free Consulting.",
+      "Only decision makers can get other people to make decisions.",
+      "People buy emotionally, they only make decisions intellectually.",
+      "People do not buy features and benefits, they buy ways to avoid or overcome pain.",
+      "Salespeople don’t get thrown out of offices, they bail out of offices.",
+      "Selling is a Broadway play performed by a psychiatrist.",
+      "The problem the prospect brings you is never the real problem.",
+      "You don’t have to like cold calls, you only have to make them.",
+      "A strong up-front contract gives you the opportunity to deal with your biggest fears up front.",
+      "Don’t spill your candy in the lobby.",
+      "If the competition is doing it, stop doing it right away. Do something else!",
+      "Never manage your numbers; manage your behavior.",
+      "No mutual mystification!",
+      "The more pain the prospect experiences, the more money the prospect will pay for your product or service.",
+      "There is no such thing as a good try.",
+      "Sell today, educate tomorrow.",
+      "No money, no sale.",
+      "Go for the \"NO.\"",
+      "The way you get on with a sales presentation is to get it over with first.",
+      "You can’t sell anybody anything... until they discover they want it.",
+      "Your value is determined more by what you gather than what you dispense."
+    ];
+
+    let quoteIndex = 0;
+    const quoteDiv = document.getElementById("quote");
+    function updateQuote() {
+      quoteDiv.textContent = quotes[quoteIndex];
+      quoteIndex = (quoteIndex + 1) % quotes.length;
+    }
+    setInterval(updateQuote, 10000); // every 10 seconds
+    updateQuote();
+  </script>
+</body>
+</html>
