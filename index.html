@@ -26,9 +26,9 @@
     <!-- Top 3 Goals -->
     <section>
       <h1 class="text-3xl font-bold mb-4 text-yellow-400">25Q3 Goals</h1>
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4" id="goals">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4 w-full" id="goals">
         <div>
-          <li class="font-bold mb-1">10X Pipeline</li>
+          <p class="font-bold mb-1">10X Pipeline</p>
           <ul class="list-disc ml-6 text-sm leading-snug text-white">
             <li>Mark spending X% more on “Producer” Activities (Lead Gen: WATN, Alumni, Podcasts)</li>
             <li>Chris is on track to $388K</li>
@@ -39,7 +39,7 @@
           </ul>
         </div>
         <div>
-          <li class="font-bold mb-1">10X Leads</li>
+          <p class="font-bold mb-1">10X Leads</p>
           <ul class="list-disc ml-6 text-sm leading-snug text-white">
             <li>We’re email marketing and LinkedIn messaging our alumni successfully</li>
             <li>Podcast Doubles Audience to 200 Downloads/Episode</li>
@@ -48,7 +48,7 @@
           </ul>
         </div>
         <div>
-          <li class="font-bold mb-1">Renewals & Budgets</li>
+          <p class="font-bold mb-1">Renewals & Budgets</p>
           <ul class="list-disc ml-6 text-sm leading-snug text-white">
             <li>Commitment Monday and Friday of renewal Dashboard</li>
             <li>We’ve improved the BTN collection and WIIFM for clients</li>
@@ -85,13 +85,9 @@
       { name: "TradeSchool", date: "2026-02-01" },
       { name: "MRP", date: "2026-02-02" },
       { name: "Dornier", date: "2026-04-01" },
-    ];
-
-    // Sort events by date ascending
-    events.sort((a, b) => new Date(a.date) - new Date(b.date));
+    ].sort((a, b) => new Date(a.date) - new Date(b.date));
 
     const timersDiv = document.getElementById("timers");
-
     events.forEach((event, index) => {
       const div = document.createElement("div");
       div.className = "bg-white text-[#003057] p-3 rounded shadow-md flex justify-between items-center text-sm md:text-base";
@@ -109,26 +105,21 @@
         const target = new Date(event.date);
         const diff = target - now;
         const days = Math.max(0, Math.floor(diff / (1000 * 60 * 60 * 24)));
-
         el.textContent = `${days} day${days !== 1 ? 's' : ''} left`;
-
-        if (days <= 90) {
-          el.classList.remove("text-blue-600");
-          el.classList.add("text-red-500");
-        } else {
-          el.classList.remove("text-red-500");
-          el.classList.add("text-blue-600");
-        }
+        el.style.color = days <= 90 ? '#dc2626' : '#2563eb'; // red if <= 90 days
       });
     }
 
     setInterval(updateTimers, 60000);
     updateTimers();
 
-    // Rotating Quotes (Full List Loaded)
     const quotes = [
-      // 217 quotes go here
-      // Example: "A life without risk is a life without growth.", ...
+      // Paste all 217 quotes here. For now, showing a few as placeholders
+      "0% of your selling comes from your Critical Parent.",
+      "A life without risk is a life without growth.",
+      "All prospects lie—all the time.",
+      "Don’t think of it as a sales call; think of it as an interview.",
+      // ... insert the full list here
     ];
 
     let quoteIndex = 0;
