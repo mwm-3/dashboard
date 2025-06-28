@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="en">
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>
+   Sales Engine Dashboard
+  </title>
+  <script src="https://cdn.tailwindcss.com">
+  </script>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&amp;display=swap" rel="stylesheet"/>
+  <style>
+   body {
+      font-family: 'Poppins', sans-serif;
+    }
+    .countdown {
+      font-variant-numeric: tabular-nums;
+      transition: color 0.3s ease-in-out;
+    }
+  </style>
+ </head>
+ <body class="bg-[#003057] text-white p-6 font-sans">
+  <div class="max-w-7xl mx-auto space-y-10">
+   <!-- Rotating Quotes / Rules Section with Logo -->
+   <section>
+    <div class="relative bg-white text-[#003057] p-6 rounded-2xl shadow-lg h-36 flex items-center justify-center">
+     <img alt="Sandler Logo" class="absolute top-4 left-4 h-10" src="Sandler Logo NEW 2024 Blue.png"/>
+     <div class="text-xl md:text-2xl italic text-center px-20 w-full leading-snug" id="quote">
+     </div>
+    </div>
+   </section>
+   <!-- Rotating Quotes / Rules Section with Logo -->
+   <section>
+    <h2 class="text-3xl font-semibold mb-4 text-yellow-400">
+     Strategy to Scale to $2M/Trimester (Mt. Washington)
+    </h2>
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+     <div class="bg-white text-[#003057] p-4 rounded shadow-md">
+      <p class="font-bold">
+       Retain &amp; Expand Largest Check Accounts
+      </p>
+      <ul class="list-disc ml-6 text-sm leading-snug">
+       <li>
+        We Drive the bus
+       </li>
+       <li>
+        Quantify Value w/Tangible Success
+       </li>
+       <li>
+        Have Fun - Show we care!
+       </li>
+      </ul>
+     </div>
+     <div class="bg-white text-[#003057] p-4 rounded shadow-md">
+      <p class="font-bold">
+       Attract New Largest Check Accounts
+      </p>
+      <ul class="list-disc ml-6 text-sm leading-snug">
+       <li>
+        Track Alumni
+       </li>
+       <li>
+        WATN - Search for “job changes”
+       </li>
+       <li>
+        Maintain awareness by bringing them value
+       </li>
+      </ul>
+     </div>
+     <div class="bg-white text-[#003057] p-4 rounded shadow-md">
+      <p class="font-bold">
+       Scale Thru Acquisition
+      </p>
+      <ul class="list-disc ml-6 text-sm leading-snug">
+       <li>
+        Merge existing franchises w/ICP
+       </li>
+       <li>
+        Leverage our people and processes
+       </li>
+       <li>
+        Elevate their capabilities
+       </li>
+      </ul>
+     </div>
+     <div class="bg-white text-[#003057] p-4 rounded shadow-md">
+      <p class="font-bold">
+       Scale By Adding &amp; Developing People
+      </p>
+      <ul class="list-disc ml-6 text-sm leading-snug">
+       <li>
+        Grow our team’s capabilities
+       </li>
+       <li>
+        We never stop recruiting
+       </li>
+       <li>
+        Mindset that OK to post
+       </li>
+      </ul>
+     </div>
+     <div class="bg-white text-[#003057] p-4 rounded shadow-md">
+      <p class="font-bold">
+       Always Optimize Our Time
+      </p>
+      <ul class="list-disc ml-6 text-sm leading-snug">
+       <li>
+        Optimize for Leverage Index &amp; LC
+       </li>
+       <li>
+        Leverage skills and joy
+       </li>
+       <li>
+        Partner with outside SMEs
+       </li>
+      </ul>
+     </div>
+    </div>
+   </section>
+   <!-- Top 3 Goals -->
+   <section>
+    <h1 class="text-3xl font-bold mb-4 text-yellow-400">
+     25Q3 Rocks
+    </h1>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 w-full">
+     <div class="bg-white text-[#003057] p-4 rounded-xl shadow-md">
+      <p class="text-xl font-bold mb-2">
+       10X Pipeline
+      </p>
+      <ul class="list-disc ml-5 text-sm leading-snug">
+       <li>
+        Mark spends X% more on “Producer” Activities
+       </li>
+       <li>
+        Chris is on track to $388K
+       </li>
+       <li>
+        Packaging plan executed
+       </li>
+       <li>
+        Josh shifts to LC prospecting
+       </li>
+       <li>
+        Know Packaging: Know players. Win big through NACD.
+       </li>
+       <li>
+        Leverage our partners like: JOB, Alicia
+       </li>
+      </ul>
+     </div>
+     <div class="bg-white text-[#003057] p-4 rounded-xl shadow-md">
+      <p class="text-xl font-bold mb-2">
+       10X Leads
+      </p>
+      <ul class="list-disc ml-5 text-sm leading-snug">
+       <li>
+        We’re email marketing and LinkedIn messaging our alumni successfully
+       </li>
+       <li>
+        Podcast Doubles Audience to 200 Downloads/Episode
+       </li>
+       <li>
+        Podcast w/Team First, then Guests
+       </li>
+       <li>
+        We’ve gotten 3 sales (Essentials and Management or Assessments)
+       </li>
+       <li>
+        We’re seeing 30+ Leads/Qtr
+       </li>
+       <li>
+        We've lit the 'We're hiring' sign
+       </li>
+      </ul>
+     </div>
+     <div class="bg-white text-[#003057] p-4 rounded-xl shadow-md">
+      <p class="text-xl font-bold mb-2">
+       Renewals &amp; Budgets
+      </p>
+      <ul class="list-disc ml-5 text-sm leading-snug">
+       <li>
+        Commitment Monday and Friday of renewal Dashboard
+       </li>
+       <li>
+        We’ve improved the BTN collection and WIIFM for clients
+       </li>
+       <li>
+        Increase LL submissions (WIIFM)
+       </li>
+       <li>
+        Improve better proposals renewal template
+       </li>
+       <li>
+        “No more Mr. Nice guy” Have plan for adding people and being paid
+       </li>
+      </ul>
+     </div>
+    </div>
+   </section>
+   <!-- Countdown Timers -->
+   <section>
+    <h2 class="text-3xl font-semibold mb-4 text-yellow-400">
+     Upcoming Renewals
+    </h2>
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4" id="timers">
+    </div>
+   </section>
+  </div>
+  <script>
+   const quotes = [
+  "0% of your selling comes from your Critical Parent.",
+  "30% of your selling comes from your Adult.",
+  "70% of your selling comes from your Nurturing Parent.",
+  "A life without risk is a life without growth.",
+  "All prospects lie—all the time.",
+  "As a profession, salespeople are one of the most Not-OK groups in existence.",
+  "Avoid reach-back and after-burn.",
+  "Being broke is a condition; being poor is a state of mind.",
+  "Cultivate a support group.",
+  "Decide what you want, build a plan, and you can bet on the outcome.",
+  "Don’t think of it as a sales call; think of it as an interview.",
+  "Failure is universal; it’s part of the human experience.",
+  "Failure strengthens your GUTS system.",
+  "Get mentally and emotionally tough.",
+  "Get out of the way of the sale.",
+  "I’m financially independent, and I don’t need the business.",
+  "If you are only what you were told you could be, you’re less than what you can be.",
+  "If you didn’t bring it with you, you’re not going to find it here.",
+  "It is not a sacrifice when you give a lesser value for a greater one.",
+  "It’s OK to fail!",
+  "Literal vs. Reality",
+  "Live to sell, but don’t sell to live.",
+  "Luck is preparation meeting opportunity.",
+  "Maintain a healthy self-esteem.",
+  "Money does grow on trees—referral trees.",
+  "Never look in your prospect’s pocket.",
+  "No Free Consulting.",
+  "No one can enter your castle without your permission.",
+  "Only by risking failure can we accomplish anything.",
+  "Only decision makers can get other people to make decisions.",
+  "Only the prospect can become emotionally involved in a selling situation.",
+  "Never become emotionally involved in a sales call, especially a cold call.",
+  "People buy emotionally, they only make decisions intellectually.",
+  "People do not buy features and benefits, they buy ways to avoid or overcome pain.",
+  "People who act committed feel better about themselves.",
+  "Prospects buy for their reasons, not the salesperson’s reasons.",
+  "Risk-taking is going from a situation of some security to a situation that’s less secure.",
+  "Salespeople don’t get thrown out of offices, they bail out of offices.",
+  "Selling is a Broadway play performed by a psychiatrist.",
+  "Selling is not for getting your needs met.",
+  "Sometimes prospects buy in spite of the salesperson’s reasons.",
+  "Success in any venture sometimes depends more on the will to jump than on being concerned about what will happen if you fail.",
+  "The Child wants to buy, the Adult makes the decision, and the Parent gives permission.",
+  "The old stuff (traditional sales training) is good, but it’s old.  The new stuff (the Sandler Selling Systemsm) is good but it hurts.",
+  "The problem the prospect brings you is never the real problem.",
+  "The unsuccessful person has difficulty in seeing things objectively.",
+  "The unsuccessful person has given up on his dreams.",
+  "The unsuccessful person has tunnel vision; he wears blinders.",
+  "The unsuccessful person spends too much time worrying about how much money he has.",
+  "The unsuccessful person worries about his education.",
+  "There are no bad prospects—only bad salespeople.",
+  "There are no magic answers.",
+  "There is a difference between who you “I” and what you “R.”",
+  "There is no growth without pain.",
+  "Understand the process of failure and let it work.",
+  "When people make decisions, they are either moving toward pleasure or away from pain.",
+  "When people make you feel Not-OK, get rid of those people.",
+  "When you risk, you loosen your hold on what you’re certain of and you reach for something which you’re not sure of, but you believe is better than what you have.",
+  "When your foot hurts, you’re probably standing on your own toe.",
+  "Who is waiting for you to fail?",
+  "Worry is interest paid in advance on borrowed trouble.",
+  "You are a third party watching the event.",
+  "You are but only one event of hundreds in your prospect’s daily life.",
+  "You are earning right now exactly what you think you’re worth.  Not a penny more or a penny less.",
+  "You are my friend when you walk in my moccasins.",
+  "You can perform in your roles only in a manner that is consistent with how you see yourself conceptually.",
+  "You can’t accomplish anything great by playing it safe.",
+  "You don’t have to like cold calls, you only have to make them.",
+  "A decision not to make a decision is a decision.",
+  "A professional did what he did as a dummy—on purpose.",
+  "A professional never does anything by accident.",
+  "A prospect who is listening is no prospect at all.",
+  "A strong up-front contract gives you the opportunity to deal with your biggest fears up front.",
+  "A strong up-front contract guarantees no interruptions during your sales calls.",
+  "A strong up-front contract requires that a decision be made at each intermediate meeting.",
+  "Be a worst-case scenario player.",
+  "Burn your bridges.",
+  "Control your fears with the up-front contract.",
+  "Develop a prospecting awareness.",
+  "Display the opposite-type behavior than what the prospect expects.",
+  "Don’t be afraid to abort!",
+  "Don’t do anything unless you know why you’re doing it.",
+  "Don’t paint seagulls in your prospect’s picture.",
+  "Don’t practice in front of the prospect.",
+  "Don’t spill your candy in the lobby.",
+  "Every unsuccessful prospecting call earns compound interest.",
+  "Get an IOU for everything you do.",
+  "If the competition is doing it, stop doing it right away. Do something else!",
+  "If you don’t have a selling system of your own when you are face-to-face with a prospect, you will unknowingly default to the prospect’s system.",
+  "If you feel it, say it—gently.",
+  "If you’re going to fight, fight up front.",
+  "Impulse is an attempt to break out of inertia, but it isn’t real decision making.",
+  "Insanity is doing the same behavior over and over again, yet expecting different results.",
+  "It is almost always the decision maker that makes the decision work, not the choice which makes the decision work.",
+  "It’s important to learn to fail.",
+  "It’s not how you feel that determines how you act; it’s how you act that determines how you feel.",
+  "Keep a journal.",
+  "Know your competition.",
+  "Learn all you can about your product or service, just don’t tell it.",
+  "Let your prospect do 70% of the talking.",
+  "Let your prospect touch your product.",
+  "Never help the prospect end the interview.",
+  "Never make a move without commitment.",
+  "Never manage your numbers; manage your behavior.",
+  "No back-outs!",
+  "No buzzwords.",
+  "No mind reading.",
+  "No mutual mystification!",
+  "No smoke!",
+  "No wishy-washy contracts!",
+  "On your way to the bank, keep one eye over your shoulder.",
+  "Only use what you know in relation to taking care of your prospect’s pain.",
+  "People are never afraid of you if you tell them up front what’s going to happen to them.",
+  "People don’t make decisions at the same time, all the time.",
+  "People who are like one another tend to like one another.",
+  "Plant your feet, stand your ground, don’t wimp!",
+  "Practice, practice, practice.",
+  "Product knowledge is worthless when used at the wrong time.",
+  "Product knowledge used at the wrong time can be intimidating.",
+  "Sell today, educate tomorrow.",
+  "Stay on the right side of the Trouble Line.",
+  "Stop selling features and benefits.",
+  "The bottom line of professional selling is going to the bank.",
+  "The more pain the prospect experiences, the more money the prospect will pay for your product or service.",
+  "The sale is actually closed when you get the order, collect the check, take it to the bank, and it clears!",
+  "The way to get rid of a bomb is to defuse it before it blows up.",
+  "There are no free presentations.",
+  "There is no emotional growth when you’re procrastinating.",
+  "There is no such thing as a good try.",
+  "What you know can hurt you, so dummy up!",
+  "When making telephone cold calls, go for appointments only.",
+  "When selling, go for the top.",
+  "When setting appointments, always get invited in.  NO BEGGING!",
+  "When you get your prospects to feel pain, especially pain in the present, and then demonstrate that you can end their suffering and hurt, you’re a step closer to the sale.",
+  "When you tell people up front how much it costs, and they have to say yes or no when it’s over, they pay attention.",
+  "Work off the prospect’s responses.  Don’t be creative.",
+  "Work smart, not hard.",
+  "You can’t get mad at a prospect for doing something you didn’t tell him he couldn’t do.",
+  "You can’t manage anything you can’t control.",
+  "You can’t teach a kid to ride a bike at a seminar.",
+  "You cannot fail at prospecting unless you fail to prospect.",
+  "You must use a system for selling.",
+  "You must work a prospecting system.",
+  "You never leave an interview unless you know why you’re going back, and the prospect has to know why you’re going back.",
+  "You want to get a lot of yeses and a lot of noes but nothing in between.",
+  "Your meter’s always running.",
+  "A winner has alternatives—a loser puts all his eggs in one basket.",
+  "All things being equal, people do business with people they trust.  All things not being equal, people still do business with people they trust.",
+  "Always let the prospect preserve his dignity.",
+  "Always make the prospect (or customer) feel more OK than you feel.",
+  "Answer every question with a question, but soften it first.",
+  "Begin all reverses with a softening statement.",
+  "David Sandler on Closing:  The Contract is the Close!",
+  "Deal with “buyer’s remorse” while you’re still in front of your prospect.",
+  "Don’t buy back tomorrow the product or service you sold today.",
+  "Don’t push yourself into the Fulfillment Step with a weak Decision Step.",
+  "Express your feelings through third-party stories.",
+  "Get into the habit of winning.",
+  "Go for the “NO.”",
+  "I find it more effective to eliminate potential roadblocks early on in the selling process rather than attempt to overcome them later on.",
+  "If you wait until the presentation to close the sale, you put too much pressure on the prospect and yourself.",
+  "Inspect what you expect.",
+  "Never answer an unasked question.",
+  "Never ask for the sale—make the prospect give it up.",
+  "Never give up control of the sale.",
+  "Never go into a box.",
+  "No money, no sale.",
+  "No pain, no sale.",
+  "Not every prospect is qualified to become a customer.",
+  "Nurture, nurture, NURTURE!",
+  "Only give a presentation to confirm an order.",
+  "Rule of Three Plus",
+  "Since most people want to feel OK about themselves, the way to feel OK about themselves is to find someone else who is more Not-OK than they are.  98% of the population wants to feel OK about themselves.",
+  "The best presentation you’re ever going to give, the prospect is never going to see.",
+  "The way you get on with a sales presentation is to get it over with first.",
+  "There’s no such thing as a salesperson handling stalls and objections.  There’s only one person qualified to do that, and that’s the prospect.",
+  "Too much Negative Reverse Sellingsm isn’t positive!",
+  "When a prospect is emotionally involved, he never sees the reverses.",
+  "When a prospect is negative, strip line hard!",
+  "When a prospect is neutral, get him moving.",
+  "When a prospect is neutral, strip line.",
+  "When a prospect is positive, strip line.",
+  "When all else fails, become a consultant.",
+  "When in front of a prospect, you ARE the home office.",
+  "When making a joint sales call, only one person talks.",
+  "When reversed, a prospect will always redefine his question.",
+  "When under attack, fall back.",
+  "When you want to know the future, bring it back to the present.",
+  "You can be a part of your own plan, or part of someone else’s.",
+  "You can’t lose anything you don’t have.",
+  "You can’t sell anybody anything . . . until they discover they want it.",
+  "You don’t have to finish the presentation.",
+  "You don’t learn how to win by getting a yes—you learn how to win by getting a no.",
+  "You have to sell to a first-born differently than to an eighth-born.",
+  "You must be working on the right end of the problem.",
+  "Your value as a sales professional (and ultimately the amount of your commissions) is determined more by the amount of information you gather than by the amount of information you dispense."
+];
+
+let quoteIndex = 0;
+const quoteDiv = document.getElementById("quote");
+function updateQuote() {
+  quoteDiv.textContent = quotes[quoteIndex];
+  quoteIndex = (quoteIndex + 1) % quotes.length;
+}
+setInterval(updateQuote, 10000);
+updateQuote();
+  </script>
+ </body>
+</html>
+    <!-- Countdown Timers -->
+    <section>
+      <h2 class="text-3xl font-semibold mb-4 text-yellow-400">Upcoming Renewals</h2>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4" id="timers"></div>
+    </section>
+
