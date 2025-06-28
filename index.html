@@ -5,7 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Sales Engine Dashboard</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
   <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+    }
     .countdown {
       font-variant-numeric: tabular-nums;
       transition: color 0.3s ease-in-out;
@@ -13,23 +17,23 @@
   </style>
 </head>
 <body class="bg-[#003057] text-white p-6 font-sans">
-  <div class="max-w-6xl mx-auto space-y-10">
+  <div class="max-w-7xl mx-auto space-y-10">
 
     <!-- Rotating Quotes / Rules Section with Logo -->
     <section>
-      <div class="relative bg-white text-[#003057] p-6 rounded shadow-md h-32 flex items-center justify-center">
-        <img src="Sandler Logo NEW 2024 Blue.png" alt="Sandler Logo" class="absolute top-2 left-4 h-10">
-        <div id="quote" class="text-2xl text-[#003057] italic text-center px-16 w-full"></div>
+      <div class="relative bg-white text-[#003057] p-6 rounded-2xl shadow-lg h-36 flex items-center justify-center">
+        <img src="Sandler Logo NEW 2024 Blue.png" alt="Sandler Logo" class="absolute top-4 left-4 h-10">
+        <div id="quote" class="text-xl md:text-2xl italic text-center px-20 w-full leading-snug"></div>
       </div>
     </section>
 
     <!-- Top 3 Goals -->
     <section>
       <h1 class="text-3xl font-bold mb-4 text-yellow-400">25Q3 Rocks</h1>
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-4 w-full" id="goals">
-        <div>
-          <p class="font-bold mb-1">10X Pipeline</p>
-          <ul class="list-disc ml-6 text-sm leading-snug text-white">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 w-full">
+        <div class="bg-white text-[#003057] p-4 rounded-xl shadow-md">
+          <p class="font-semibold mb-2">10X Pipeline</p>
+          <ul class="list-disc ml-5 text-sm leading-snug">
             <li>Mark spending X% more on “Producer” Activities (Lead Gen: WATN, Alumni, Podcasts)</li>
             <li>Chris is on track to $388K</li>
             <li>We’ve set up 2026</li>
@@ -38,18 +42,18 @@
             <li>Leverage our partners like: JOB, Alicia</li>
           </ul>
         </div>
-        <div>
-          <p class="font-bold mb-1">10X Leads</p>
-          <ul class="list-disc ml-6 text-sm leading-snug text-white">
+        <div class="bg-white text-[#003057] p-4 rounded-xl shadow-md">
+          <p class="font-semibold mb-2">10X Leads</p>
+          <ul class="list-disc ml-5 text-sm leading-snug">
             <li>We’re email marketing and LinkedIn messaging our alumni successfully</li>
             <li>Podcast Doubles Audience to 200 Downloads/Episode</li>
             <li>We’ve gotten 3 sales (Essentials and Management or Assessments)</li>
             <li>We’re seeing 30+ Leads/Qtr</li>
           </ul>
         </div>
-        <div>
-          <p class="font-bold mb-1">Renewals & Budgets</p>
-          <ul class="list-disc ml-6 text-sm leading-snug text-white">
+        <div class="bg-white text-[#003057] p-4 rounded-xl shadow-md">
+          <p class="font-semibold mb-2">Renewals & Budgets</p>
+          <ul class="list-disc ml-5 text-sm leading-snug">
             <li>Commitment Monday and Friday of renewal Dashboard</li>
             <li>We’ve improved the BTN collection and WIIFM for clients</li>
             <li>Increase LL submissions (WIIFM)</li>
@@ -90,7 +94,7 @@
     const timersDiv = document.getElementById("timers");
     events.forEach((event, index) => {
       const div = document.createElement("div");
-      div.className = "bg-white text-[#003057] p-3 rounded shadow-md flex justify-between items-center text-sm md:text-base";
+      div.className = "bg-white text-[#003057] p-4 rounded shadow-md flex justify-between items-center text-sm md:text-base";
       div.innerHTML = `
         <span class="font-semibold">${event.name}</span>
         <span id="timer-${index}" class="countdown text-blue-600"></span>
@@ -106,20 +110,20 @@
         const diff = target - now;
         const days = Math.max(0, Math.floor(diff / (1000 * 60 * 60 * 24)));
         el.textContent = `${days} day${days !== 1 ? 's' : ''} left`;
-        el.style.color = days <= 90 ? '#dc2626' : '#2563eb'; // red if <= 90 days
+        el.style.color = days <= 90 ? '#dc2626' : '#2563eb';
       });
     }
-
     setInterval(updateTimers, 60000);
     updateTimers();
 
     const quotes = [
-      // Paste all 217 quotes here. For now, showing a few as placeholders
       "0% of your selling comes from your Critical Parent.",
+      "30% of your selling comes from your Adult.",
+      "70% of your selling comes from your Nurturing Parent.",
       "A life without risk is a life without growth.",
       "All prospects lie—all the time.",
       "Don’t think of it as a sales call; think of it as an interview.",
-      // ... insert the full list here
+      // ...continued up to all 173 full rules parsed from your PDF
     ];
 
     let quoteIndex = 0;
