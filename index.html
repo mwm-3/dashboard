@@ -27,9 +27,10 @@
 
     <!-- Rotating Quotes / Rules Section with Logo -->
     <section>
-      <div class="relative bg-white text-[#003057] p-6 rounded-2xl shadow-lg h-36 flex items-center justify-center">
+      <div class="relative bg-white text-[#003057] p-6 rounded-2xl shadow-lg flex flex-col items-center justify-center">
         <img src="Sandler Logo NEW 2024 Blue.png" alt="Sandler Logo" class="absolute top-4 left-4 h-10">
         <div id="quote" class="text-xl md:text-2xl italic text-center px-20 w-full leading-snug" aria-live="polite"></div>
+        <div id="quarter-countdown" class="text-sm mt-2"></div>
       </div>
     </section>
 
@@ -121,12 +122,29 @@
 
     <!-- Countdown Timers -->
     <section>
-      <h2 class="text-3xl font-semibold mb-4 text-yellow-400">Upcoming Renewals</h2>
+      <h2 class="text-3xl font-semibold mb-4 text-yellow-400 flex items-center">
+        Upcoming Renewals
+        <span id="settings-gear" class="ml-2 cursor-pointer select-none">⚙️</span>
+      </h2>
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4" id="timers"></div>
     </section>
 
   </div>
 
+  <!-- Settings modal for editing countdown items -->
+  <div id="settings-modal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50">
+    <div class="bg-white text-[#003057] p-6 rounded-lg max-w-lg w-full">
+      <h3 class="text-2xl font-bold mb-4">Edit Countdown Items</h3>
+      <div id="event-list" class="space-y-2 max-h-80 overflow-y-auto"></div>
+      <div class="flex justify-between mt-4">
+        <button id="add-event" class="bg-blue-600 text-white py-1 px-2 rounded">Add Event</button>
+        <div>
+          <button id="save-events" class="bg-green-600 text-white py-1 px-3 rounded mr-2">Save</button>
+          <button id="cancel-settings" class="bg-gray-400 text-white py-1 px-3 rounded">Cancel</button>
+        </div>
+      </div>
+    </div>
+  </div>
   <script>
     // Fallback data in case JSON files are unavailable
     const fallbackEvents = [
@@ -153,10 +171,194 @@
       "No drama."
     ];
 
-    async function loadData() {
-      let events = fallbackEvents;
-      let quotes = fallbackQuotes;
+    // Global variables for events and quotes, editable through settings
+    let events = [];
+    let quotes = [];
 
+    /**
+     * Render the countdown tiles based on the current events array.
+     * Sorts events by date and then creates tiles for each item.
+     */
+    function renderTimers() {
+      // Sort events by date
+      events.sort((a, b) => new Date(a.date) - new Date(b.date));
+      const timersDiv = document.getElementById("timers");
+      timersDiv.innerHTML = "";
+      events.forEach((event, index) => {
+        const div = document.createElement("div");
+        div.className =
+          "bg-white text-[#003057] p-4 rounded shadow-md flex justify-between items-center text-sm md:text-base";
+        div.innerHTML =
+          '<span class="font-semibold">' +
+          event.name +
+          "</span>" +
+          '<span id="timer-' +
+          index +
+          '" class="countdown text-blue-600"></span>';
+        timersDiv.appendChild(div);
+      });
+    }
+
+    /**
+     * Update the countdown numbers for each timer every day.
+     */
+    function updateTimers() {
+      const now = new Date();
+      const todayUTC = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate()));
+      events.forEach((event, index) => {
+        const el = document.getElementById("timer-" + index);
+        if (!el) return;
+        const parts = event.date.split("-");
+        const targetUTC = new Date(
+          Date.UTC(parseInt(parts[0]), parseInt(parts[1]) - 1, parseInt(parts[2]))
+        );
+        const diff = targetUTC - todayUTC;
+        const days = Math.max(0, Math.floor(diff / (1000 * 60 * 60 * 24)));
+        el.textContent = days + " day" + (days !== 1 ? "s" : "") + " left";
+        el.style.color = days <= 90 ? "#dc2626" : "#2563eb";
+      });
+    }
+
+    /**
+     * Update the rotating quote. Called every 5 seconds.
+     */
+    function startQuoteRotation() {
+      const quoteDiv = document.getElementById("quote");
+      let quoteIndex = 0;
+      function updateQuote() {
+        if (!Array.isArray(quotes) || quotes.length === 0) return;
+        quoteDiv.textContent = quotes[quoteIndex];
+        quoteIndex = (quoteIndex + 1) % quotes.length;
+      }
+      updateQuote();
+      setInterval(updateQuote, 5000);
+    }
+
+    /**
+     * Compute the end date of the current quarter based on the provided date.
+     * Quarter ends are: 3/31, 6/30, 9/30, 12/31.
+     */
+    function getNextQuarterEnd(date) {
+      const year = date.getFullYear();
+      const month = date.getMonth() + 1; // 1-12
+      if (month <= 3) return new Date(year, 2, 31); // March 31
+      if (month <= 6) return new Date(year, 5, 30); // June 30
+      if (month <= 9) return new Date(year, 8, 30); // September 30
+      return new Date(year, 11, 31); // December 31
+    }
+
+    /**
+     * Update the quarter countdown displayed under the Sandler logo.
+     */
+    function updateQuarterCountdown() {
+      const now = new Date();
+      const quarterEnd = getNextQuarterEnd(now);
+      const todayUTC = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate()));
+      const targetUTC = new Date(
+        Date.UTC(quarterEnd.getFullYear(), quarterEnd.getMonth(), quarterEnd.getDate())
+      );
+      const diff = targetUTC - todayUTC;
+      const days = Math.max(0, Math.floor(diff / (1000 * 60 * 60 * 24)));
+      const qcDiv = document.getElementById("quarter-countdown");
+      if (qcDiv) {
+        qcDiv.textContent =
+          days + " day" + (days !== 1 ? "s" : "") + " until quarter end";
+      }
+    }
+
+    /**
+     * Render the list of events in the settings modal for editing.
+     */
+    function renderEventList() {
+      const listDiv = document.getElementById("event-list");
+      listDiv.innerHTML = "";
+      events.forEach((event, index) => {
+        const row = document.createElement("div");
+        row.className = "flex space-x-2 items-center";
+        row.innerHTML =
+          '<input type="text" value="' +
+          event.name +
+          '" class="border p-1 flex-1 bg-gray-100 rounded" />' +
+          '<input type="date" value="' +
+          event.date +
+          '" class="border p-1 bg-gray-100 rounded" />' +
+          '<button class="bg-red-500 text-white px-2 py-1 rounded remove-event" data-index="' +
+          index +
+          '">Remove</button>';
+        listDiv.appendChild(row);
+      });
+    }
+
+    /**
+     * Show the settings modal.
+     */
+    function openSettings() {
+      renderEventList();
+      document.getElementById("settings-modal").classList.remove("hidden");
+    }
+
+    /**
+     * Close the settings modal without saving changes.
+     */
+    function closeSettings() {
+      document.getElementById("settings-modal").classList.add("hidden");
+    }
+
+    /**
+     * Add a new blank event row in the settings modal.
+     */
+    function addEventRow() {
+      events.push({ name: "New Event", date: new Date().toISOString().split("T")[0] });
+      renderEventList();
+    }
+
+    /**
+     * Save changes from the settings modal to the events array and update timers.
+     */
+    function saveEvents() {
+      const listDiv = document.getElementById("event-list");
+      const rows = listDiv.querySelectorAll("div.flex");
+      const updated = [];
+      rows.forEach((row) => {
+        const inputs = row.querySelectorAll("input");
+        const name = inputs[0].value.trim();
+        const date = inputs[1].value;
+        if (name && date) {
+          updated.push({ name, date });
+        }
+      });
+      events = updated;
+      renderTimers();
+      updateTimers();
+      closeSettings();
+    }
+
+    /**
+     * Initialize event listeners for settings gear and modal controls.
+     */
+    function initSettingsControls() {
+      const gear = document.getElementById("settings-gear");
+      if (gear) gear.addEventListener("click", openSettings);
+      document.getElementById("cancel-settings").addEventListener("click", closeSettings);
+      document.getElementById("add-event").addEventListener("click", addEventRow);
+      document.getElementById("save-events").addEventListener("click", saveEvents);
+      document.getElementById("event-list").addEventListener("click", (e) => {
+        if (e.target.classList.contains("remove-event")) {
+          const idx = parseInt(e.target.getAttribute("data-index"));
+          if (!isNaN(idx)) {
+            events.splice(idx, 1);
+            renderEventList();
+          }
+        }
+      });
+    }
+
+    /**
+     * Load events and quotes from JSON or fallback, then render initial UI.
+     */
+    async function loadData() {
+      events = fallbackEvents;
+      quotes = fallbackQuotes;
       try {
         const eventsRes = await fetch("data/events.json");
         if (eventsRes.ok) {
@@ -165,7 +367,6 @@
       } catch (e) {
         console.warn("Could not load events.json, using fallback events.");
       }
-
       try {
         const quotesRes = await fetch("data/quotes.json");
         if (quotesRes.ok) {
@@ -174,54 +375,18 @@
       } catch (e) {
         console.warn("Could not load quotes.json, using fallback quotes.");
       }
-
-      // Sort events by date
-      events.sort((a, b) => new Date(a.date) - new Date(b.date));
-
-      // Render countdown tiles
-      const timersDiv = document.getElementById("timers");
-      timersDiv.innerHTML = "";
-      events.forEach((event, index) => {
-        const div = document.createElement("div");
-        div.className = "bg-white text-[#003057] p-4 rounded shadow-md flex justify-between items-center text-sm md:text-base";
-        div.innerHTML =
-          '<span class="font-semibold">' + event.name + '</span>' +
-          '<span id="timer-' + index + '" class="countdown text-blue-600"></span>';
-        timersDiv.appendChild(div);
-      });
-
-      function updateTimers() {
-        const now = new Date();
-        // Normalize to UTC midnight for today
-        const todayUTC = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate()));
-        events.forEach((event, index) => {
-          const el = document.getElementById("timer-" + index);
-          const parts = event.date.split("-");
-          const targetUTC = new Date(Date.UTC(parseInt(parts[0]), parseInt(parts[1]) - 1, parseInt(parts[2])));
-          const diff = targetUTC - todayUTC;
-          const days = Math.max(0, Math.floor(diff / (1000 * 60 * 60 * 24)));
-          el.textContent = days + " day" + (days !== 1 ? "s" : "") + " left";
-          el.style.color = days <= 90 ? "#dc2626" : "#2563eb";
-        });
-      }
-
+      renderTimers();
       updateTimers();
-      // Update once a day
       setInterval(updateTimers, 86400000);
-
-      // Rotating quotes
-      const quoteDiv = document.getElementById("quote");
-      let quoteIndex = 0;
-      function updateQuote() {
-        if (quotes.length === 0) return;
-        quoteDiv.textContent = quotes[quoteIndex];
-        quoteIndex = (quoteIndex + 1) % quotes.length;
-      }
-      updateQuote();
-      setInterval(updateQuote, 5000);
+      startQuoteRotation();
     }
 
-    document.addEventListener("DOMContentLoaded", loadData);
+    document.addEventListener("DOMContentLoaded", () => {
+      loadData();
+      updateQuarterCountdown();
+      setInterval(updateQuarterCountdown, 86400000);
+      initSettingsControls();
+    });
   </script>
 </body>
 </html>
