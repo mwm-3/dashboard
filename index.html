@@ -5,10 +5,16 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Sales Engine Dashboard</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="stylesheet" href="fonts/poppins.css">
   <style>
+    @font-face {
+      font-family: "Poppins";
+      src: url("fonts/Poppins-Regular.ttf") format("truetype");
+      font-weight: 400;
+      font-style: normal;
+      font-display: swap;
+    }
     body {
-      font-family: 'Poppins', sans-serif;
+      font-family: "Poppins", sans-serif;
     }
     .countdown {
       font-variant-numeric: tabular-nums;
@@ -23,7 +29,7 @@
     <section>
       <div class="relative bg-white text-[#003057] p-6 rounded-2xl shadow-lg h-36 flex items-center justify-center">
         <img src="Sandler Logo NEW 2024 Blue.png" alt="Sandler Logo" class="absolute top-4 left-4 h-10">
-        <div id="quote" class="text-xl md:text-2xl italic text-center px-20 w-full leading-snug"></div>
+        <div id="quote" class="text-xl md:text-2xl italic text-center px-20 w-full leading-snug" aria-live="polite"></div>
       </div>
     </section>
 
@@ -74,7 +80,7 @@
       </div>
     </section>
 
-  <!-- Top 3 Goals -->
+    <!-- Top 3 Goals -->
     <section>
       <h1 class="text-3xl font-bold mb-4 text-yellow-400">25Q3 Rocks</h1>
       <div class="grid grid-cols-1 md:grid-cols-3 gap-6 w-full">
@@ -90,7 +96,7 @@
           </ul>
         </div>
         <div class="bg-white text-[#003057] p-4 rounded-xl shadow-md">
-           <p class="text-xl font-bold mb-2">10X Leads</p>
+          <p class="text-xl font-bold mb-2">10X Leads</p>
           <ul class="list-disc ml-5 text-sm leading-snug">
             <li>We’re email marketing and LinkedIn messaging our alumni successfully</li>
             <li>Podcast Doubles Audience to 200 Downloads/Episode</li>
@@ -101,7 +107,7 @@
           </ul>
         </div>
         <div class="bg-white text-[#003057] p-4 rounded-xl shadow-md">
-           <p class="text-xl font-bold mb-2">Renewals & Budgets</p>
+          <p class="text-xl font-bold mb-2">Renewals & Budgets</p>
           <ul class="list-disc ml-5 text-sm leading-snug">
             <li>Commitment Monday and Friday of renewal Dashboard</li>
             <li>We’ve improved the BTN collection and WIIFM for clients</li>
@@ -121,9 +127,9 @@
 
   </div>
 
-  <script src="rules.js"></script>
   <script>
-    const events = [
+    // Fallback data in case JSON files are unavailable
+    const fallbackEvents = [
       { name: "Altium", date: "2025-10-31" },
       { name: "Zeta", date: "2025-12-31" },
       { name: "HH", date: "2025-12-31" },
@@ -137,42 +143,85 @@
       { name: "Merchology", date: "2025-12-31" },
       { name: "TradeSchool", date: "2026-02-01" },
       { name: "MRP", date: "2026-02-02" },
-      { name: "Dornier", date: "2026-04-01" },
-    ].sort((a, b) => new Date(a.date) - new Date(b.date));
+      { name: "Dornier", date: "2026-04-01" }
+    ];
+    const fallbackQuotes = [
+      "Do the behavior.",
+      "Protect the brand.",
+      "Be a product of the product.",
+      "Don’t get creative.",
+      "No drama."
+    ];
 
-    const timersDiv = document.getElementById("timers");
-    events.forEach((event, index) => {
-      const div = document.createElement("div");
-      div.className = "bg-white text-[#003057] p-4 rounded shadow-md flex justify-between items-center text-sm md:text-base";
-      div.innerHTML = `
-        <span class="font-semibold">${event.name}</span>
-        <span id="timer-${index}" class="countdown text-blue-600"></span>
-      `;
-      timersDiv.appendChild(div);
-    });
+    async function loadData() {
+      let events = fallbackEvents;
+      let quotes = fallbackQuotes;
 
-    function updateTimers() {
-      const now = new Date();
+      try {
+        const eventsRes = await fetch("data/events.json");
+        if (eventsRes.ok) {
+          events = await eventsRes.json();
+        }
+      } catch (e) {
+        console.warn("Could not load events.json, using fallback events.");
+      }
+
+      try {
+        const quotesRes = await fetch("data/quotes.json");
+        if (quotesRes.ok) {
+          quotes = await quotesRes.json();
+        }
+      } catch (e) {
+        console.warn("Could not load quotes.json, using fallback quotes.");
+      }
+
+      // Sort events by date
+      events.sort((a, b) => new Date(a.date) - new Date(b.date));
+
+      // Render countdown tiles
+      const timersDiv = document.getElementById("timers");
+      timersDiv.innerHTML = "";
       events.forEach((event, index) => {
-        const el = document.getElementById(`timer-${index}`);
-        const target = new Date(event.date);
-        const diff = target - now;
-        const days = Math.max(0, Math.floor(diff / (1000 * 60 * 60 * 24)));
-        el.textContent = `${days} day${days !== 1 ? 's' : ''} left`;
-        el.style.color = days <= 90 ? '#dc2626' : '#2563eb';
+        const div = document.createElement("div");
+        div.className = "bg-white text-[#003057] p-4 rounded shadow-md flex justify-between items-center text-sm md:text-base";
+        div.innerHTML =
+          '<span class="font-semibold">' + event.name + '</span>' +
+          '<span id="timer-' + index + '" class="countdown text-blue-600"></span>';
+        timersDiv.appendChild(div);
       });
-    }
-    setInterval(updateTimers, 60000);
-    updateTimers();
 
-    const quoteDiv = document.getElementById("quote");
-    let quoteIndex = 0;
-    function updateQuote() {
-      quoteDiv.textContent = quotes[quoteIndex];
-      quoteIndex = (quoteIndex + 1) % quotes.length;
+      function updateTimers() {
+        const now = new Date();
+        // Normalize to UTC midnight for today
+        const todayUTC = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate()));
+        events.forEach((event, index) => {
+          const el = document.getElementById("timer-" + index);
+          const parts = event.date.split("-");
+          const targetUTC = new Date(Date.UTC(parseInt(parts[0]), parseInt(parts[1]) - 1, parseInt(parts[2])));
+          const diff = targetUTC - todayUTC;
+          const days = Math.max(0, Math.floor(diff / (1000 * 60 * 60 * 24)));
+          el.textContent = days + " day" + (days !== 1 ? "s" : "") + " left";
+          el.style.color = days <= 90 ? "#dc2626" : "#2563eb";
+        });
+      }
+
+      updateTimers();
+      // Update once a day
+      setInterval(updateTimers, 86400000);
+
+      // Rotating quotes
+      const quoteDiv = document.getElementById("quote");
+      let quoteIndex = 0;
+      function updateQuote() {
+        if (quotes.length === 0) return;
+        quoteDiv.textContent = quotes[quoteIndex];
+        quoteIndex = (quoteIndex + 1) % quotes.length;
+      }
+      updateQuote();
+      setInterval(updateQuote, 5000);
     }
-    setInterval(updateQuote, 10000);
-    updateQuote();
+
+    document.addEventListener("DOMContentLoaded", loadData);
   </script>
 </body>
 </html>
