@@ -43,41 +43,41 @@
       Strategy to Scale to $2M/Trimester (Mt. Washington)
     </h2>
     <div class="grid grid-cols-1 md:grid-cols-5 gap-4">
-      <div class="bg-white text-[#003057] p-6 rounded-2xl shadow-lg">
+      <div class="bg-white text-[#003057] p-6 rounded-2xl shadow-lg min-h-[200px]">
         <h3 class="font-bold">Retain & Expand Largest Check</h3>
-        <ul class="list-disc pl-5">
+        <ul class="list-disc pl-5 space-y-1">
           <li>We Drive the bus</li>
           <li>Quantify Value w/Tangible Success</li>
           <li>Have Fun – Show we care!</li>
         </ul>
       </div>
-      <div class="bg-white text-[#003057] p-6 rounded-2xl shadow-lg">
+      <div class="bg-white text-[#003057] p-6 rounded-2xl shadow-lg min-h-[200px]">
         <h3 class="font-bold">Attract New Largest Check Accounts</h3>
-        <ul class="list-disc pl-5">
+        <ul class="list-disc pl-5 space-y-1">
           <li>Track Alumni</li>
           <li>WATN – Search for “job changes”</li>
           <li>Maintain awareness by bringing them value</li>
         </ul>
       </div>
-      <div class="bg-white text-[#003057] p-6 rounded-2xl shadow-lg">
+      <div class="bg-white text-[#003057] p-6 rounded-2xl shadow-lg min-h-[200px]">
         <h3 class="font-bold">Scale Thru Acquisition</h3>
-        <ul class="list-disc pl-5">
+        <ul class="list-disc pl-5 space-y-1">
           <li>Merge existing franchises w/ICP</li>
           <li>Leverage our people and processes</li>
           <li>Elevate their capabilities</li>
         </ul>
       </div>
-      <div class="bg-white text-[#003057] p-6 rounded-2xl shadow-lg">
+      <div class="bg-white text-[#003057] p-6 rounded-2xl shadow-lg min-h-[200px]">
         <h3 class="font-bold">Scale By Adding & Developing People</h3>
-        <ul class="list-disc pl-5">
+        <ul class="list-disc pl-5 space-y-1">
           <li>Grow our team’s capabilities</li>
           <li>We never stop recruiting</li>
           <li>Mindset that OK to post</li>
         </ul>
       </div>
-      <div class="bg-white text-[#003057] p-6 rounded-2xl shadow-lg">
+      <div class="bg-white text-[#003057] p-6 rounded-2xl shadow-lg min-h-[200px]">
         <h3 class="font-bold">Always Optimize Our Time</h3>
-        <ul class="list-disc pl-5">
+        <ul class="list-disc pl-5 space-y-1">
           <li>Optimize for Leverage Index & LC</li>
           <li>Leverage skills and joy</li>
           <li>Partner with outside SMEs</li>
@@ -92,110 +92,112 @@
     <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
 
       <!-- Pipeline -->
-      <div class="bg-white text-[#003057] p-6 rounded-2xl shadow-lg">
+      <div class="bg-white text-[#003057] p-6 rounded-2xl shadow-lg min-h-[250px]">
         <h3 class="font-bold">10X Pipeline</h3>
-        <ul id="pipeline-list" class="list-disc pl-5"></ul>
+        <ul id="pipeline-list" class="list-disc pl-5 space-y-1"></ul>
       </div>
 
       <!-- Leads -->
-      <div class="bg-white text-[#003057] p-6 rounded-2xl shadow-lg">
+      <div class="bg-white text-[#003057] p-6 rounded-2xl shadow-lg min-h-[250px]">
         <h3 class="font-bold">10X Leads</h3>
-        <ul id="leads-list" class="list-disc pl-5"></ul>
+        <ul id="leads-list" class="list-disc pl-5 space-y-1"></ul>
       </div>
 
       <!-- Renewals -->
-      <div class="bg-white text-[#003057] p-6 rounded-2xl shadow-lg">
+      <div class="bg-white text-[#003057] p-6 rounded-2xl shadow-lg min-h-[250px]">
         <h3 class="font-bold">Renewals & Budgets</h3>
-        <ul id="renewals-list" class="list-disc pl-5"></ul>
+        <ul id="renewals-list" class="list-disc pl-5 space-y-1"></ul>
       </div>
 
     </div>
   </section>
 
   <!-- Scripts -->
- <script src="rocks.js"></script>
-<script>
-  function renderRocks() {
-    const pipelineList = document.getElementById("pipeline-list");
-    const leadsList = document.getElementById("leads-list");
-    const renewalsList = document.getElementById("renewals-list");
+  <script src="rocks.js"></script>
+  <script>
+    // Render Rocks
+    function renderRocks() {
+      const pipelineList = document.getElementById("pipeline-list");
+      const leadsList = document.getElementById("leads-list");
+      const renewalsList = document.getElementById("renewals-list");
 
-    console.log("Rendering Rocks…");
-    console.log("Pipeline items:", rocks.pipeline?.length || 0);
-    console.log("Leads items:", rocks.leads?.length || 0);
-    console.log("Renewals items:", rocks.renewals?.length || 0);
+      console.log("Rendering Rocks…");
+      console.log("Pipeline items:", rocks.pipeline?.length || 0);
+      console.log("Leads items:", rocks.leads?.length || 0);
+      console.log("Renewals items:", rocks.renewals?.length || 0);
 
-    if (rocks.pipeline && pipelineList) {
-      rocks.pipeline.forEach(item => {
-        const li = document.createElement("li");
-        li.textContent = item;
-        pipelineList.appendChild(li);
-      });
+      if (rocks.pipeline && pipelineList) {
+        rocks.pipeline.forEach(item => {
+          const li = document.createElement("li");
+          li.textContent = item;
+          pipelineList.appendChild(li);
+        });
+      }
+
+      if (rocks.leads && leadsList) {
+        rocks.leads.forEach(item => {
+          const li = document.createElement("li");
+          li.textContent = item;
+          leadsList.appendChild(li);
+        });
+      }
+
+      if (rocks.renewals && renewalsList) {
+        rocks.renewals.forEach(item => {
+          const li = document.createElement("li");
+          li.textContent = item;
+          renewalsList.appendChild(li);
+        });
+      }
     }
 
-    if (rocks.leads && leadsList) {
-      rocks.leads.forEach(item => {
-        const li = document.createElement("li");
-        li.textContent = item;
-        leadsList.appendChild(li);
-      });
-    }
+    document.addEventListener("DOMContentLoaded", () => {
+      renderRocks();
+      rotateRules();
+      updateQuarterCountdown();
+    });
 
-    if (rocks.renewals && renewalsList) {
-      rocks.renewals.forEach(item => {
-        const li = document.createElement("li");
-        li.textContent = item;
-        renewalsList.appendChild(li);
-      });
-    }
-  }
-
-  document.addEventListener("DOMContentLoaded", () => {
-    renderRocks();
-    rotateRules();
-    updateQuarterCountdown();
-  });
-
-  // Rotate Rules
-  const rules = [
-    "Protect the brand.",
-    "Be a product of the product.",
-    "Do the behavior.",
-    "Don’t get creative.",
-    "No drama."
-  ];
-  let currentRule = 0;
-  function rotateRules() {
-    const quoteDiv = document.getElementById("quote");
-    if (quoteDiv) {
-      quoteDiv.textContent = rules[currentRule];
-      currentRule = (currentRule + 1) % rules.length;
-    }
-  }
-  setInterval(rotateRules, 5000);
-
-  // Quarter Countdown
-  function getNextQuarterEnd(date) {
-    const year = date.getFullYear();
-    const quarters = [
-      new Date(year, 2, 31),
-      new Date(year, 5, 30),
-      new Date(year, 8, 30),
-      new Date(year, 11, 31)
+    // Rotate Rules
+    const rules = [
+      "Protect the brand.",
+      "Be a product of the product.",
+      "Do the behavior.",
+      "Don’t get creative.",
+      "No drama."
     ];
-    return quarters.find(q => q >= date) || new Date(year + 1, 2, 31);
-  }
-  function updateQuarterCountdown() {
-    const now = new Date();
-    const quarterEnd = getNextQuarterEnd(now);
-    const todayUTC = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate()));
-    const targetUTC = new Date(Date.UTC(quarterEnd.getFullYear(), quarterEnd.getMonth(), quarterEnd.getDate()));
-    const diff = targetUTC - todayUTC;
-    const days = Math.max(0, Math.floor(diff / (1000 * 60 * 60 * 24)));
-    const qcDiv = document.getElementById("quarter-countdown");
-    if (qcDiv) {
-      qcDiv.textContent = days + " day" + (days !== 1 ? "s" : "") + " until quarter end";
+    let currentRule = 0;
+    function rotateRules() {
+      const quoteDiv = document.getElementById("quote");
+      if (quoteDiv) {
+        quoteDiv.textContent = rules[currentRule];
+        currentRule = (currentRule + 1) % rules.length;
+      }
     }
-  }
-</script>
+    setInterval(rotateRules, 5000);
 
+    // Quarter Countdown
+    function getNextQuarterEnd(date) {
+      const year = date.getFullYear();
+      const quarters = [
+        new Date(year, 2, 31),
+        new Date(year, 5, 30),
+        new Date(year, 8, 30),
+        new Date(year, 11, 31)
+      ];
+      return quarters.find(q => q >= date) || new Date(year + 1, 2, 31);
+    }
+    function updateQuarterCountdown() {
+      const now = new Date();
+      const quarterEnd = getNextQuarterEnd(now);
+      const todayUTC = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate()));
+      const targetUTC = new Date(Date.UTC(quarterEnd.getFullYear(), quarterEnd.getMonth(), quarterEnd.getDate()));
+      const diff = targetUTC - todayUTC;
+      const days = Math.max(0, Math.floor(diff / (1000 * 60 * 60 * 24)));
+      const qcDiv = document.getElementById("quarter-countdown");
+      if (qcDiv) {
+        qcDiv.textContent = days + " day" + (days !== 1 ? "s" : "") + " until quarter end";
+      }
+    }
+  </script>
+</body>
+</html>
