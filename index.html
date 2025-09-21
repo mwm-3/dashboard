@@ -115,6 +115,14 @@
     </div>
   </section>
 
+  <!-- Countdown to Renewals Section -->
+  <section>
+    <div class="bg-white text-[#003057] p-6 rounded-2xl shadow-lg text-center">
+      <h2 class="text-xl font-bold mb-2">Countdown to Renewals</h2>
+      <div id="renewals-countdown" class="text-2xl font-bold"></div>
+    </div>
+  </section>
+
   <!-- Scripts -->
   <script src="rocks.js"></script>
   <script>
@@ -123,11 +131,6 @@
       const pipelineList = document.getElementById("pipeline-list");
       const leadsList = document.getElementById("leads-list");
       const renewalsList = document.getElementById("renewals-list");
-
-      console.log("Rendering Rocks…");
-      console.log("Pipeline items:", rocks.pipeline?.length || 0);
-      console.log("Leads items:", rocks.leads?.length || 0);
-      console.log("Renewals items:", rocks.renewals?.length || 0);
 
       if (rocks.pipeline && pipelineList) {
         rocks.pipeline.forEach(item => {
@@ -158,6 +161,7 @@
       renderRocks();
       rotateRules();
       updateQuarterCountdown();
+      updateRenewalsCountdown();
     });
 
     // Rotate Rules
@@ -199,6 +203,30 @@
       const qcDiv = document.getElementById("quarter-countdown");
       if (qcDiv) {
         qcDiv.textContent = days + " day" + (days !== 1 ? "s" : "") + " until quarter end";
+      }
+    }
+
+    // Renewals Countdown
+    function getNextRenewal(date) {
+      const year = date.getFullYear();
+      const renewals = [
+        new Date(year, 2, 1),   // March 1
+        new Date(year, 5, 1),   // June 1
+        new Date(year, 8, 1),   // Sept 1
+        new Date(year, 11, 1)   // Dec 1
+      ];
+      return renewals.find(r => r >= date) || new Date(year + 1, 2, 1);
+    }
+    function updateRenewalsCountdown() {
+      const now = new Date();
+      const renewalDate = getNextRenewal(now);
+      const todayUTC = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate()));
+      const targetUTC = new Date(Date.UTC(renewalDate.getFullYear(), renewalDate.getMonth(), renewalDate.getDate()));
+      const diff = targetUTC - todayUTC;
+      const days = Math.max(0, Math.floor(diff / (1000 * 60 * 60 * 24)));
+      const rcDiv = document.getElementById("renewals-countdown");
+      if (rcDiv) {
+        rcDiv.textContent = days + " day" + (days !== 1 ? "s" : "") + " until renewals";
       }
     }
   </script>
