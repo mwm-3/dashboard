@@ -5,12 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Sales Engine Dashboard</title>
 
-  <!-- Google Fonts (Poppins) -->
+  <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
-
-  <!-- Silent favicon -->
   <link rel="icon" href="data:,">
-
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
     body { font-family: "Poppins", sans-serif; }
@@ -18,10 +15,9 @@
 </head>
 <body class="bg-[#003057] text-white p-6 space-y-6">
 
-  <!-- Header Section -->
+  <!-- Header -->
   <section>
-    <div class="bg-white text-[#003057] p-6 rounded-2xl shadow-lg 
-                flex flex-col md:flex-row items-center justify-between">
+    <div class="bg-white text-[#003057] p-6 rounded-2xl shadow-lg flex flex-col md:flex-row items-center justify-between">
       <div class="flex-shrink-0">
         <img src="Sandler Logo NEW 2024 Blue.png" alt="Sandler Logo" class="h-10 md:h-12">
       </div>
@@ -30,96 +26,61 @@
     </div>
   </section>
 
-  <!-- Strategy Section -->
+  <!-- Strategy -->
   <section>
     <h2 class="text-2xl font-bold text-yellow-400 mb-4">Strategy to Scale to $2M/Trimester (Mt. Washington)</h2>
     <div class="grid grid-cols-1 md:grid-cols-5 gap-4">
-      <div class="bg-white text-[#003057] p-6 rounded-2xl shadow-lg min-h-[200px]">
-        <h3 class="font-bold">Retain & Expand Largest Check</h3>
-        <ul class="list-disc pl-5 space-y-1">
-          <li>We Drive the bus</li>
-          <li>Quantify Value w/Tangible Success</li>
-          <li>Have Fun – Show we care!</li>
-        </ul>
-      </div>
-      <div class="bg-white text-[#003057] p-6 rounded-2xl shadow-lg min-h-[200px]">
-        <h3 class="font-bold">Attract New Largest Check Accounts</h3>
-        <ul class="list-disc pl-5 space-y-1">
-          <li>Track Alumni</li>
-          <li>WATN – Search for “job changes”</li>
-          <li>Maintain awareness by bringing them value</li>
-        </ul>
-      </div>
-      <div class="bg-white text-[#003057] p-6 rounded-2xl shadow-lg min-h-[200px]">
-        <h3 class="font-bold">Scale Thru Acquisition</h3>
-        <ul class="list-disc pl-5 space-y-1">
-          <li>Merge existing franchises w/ICP</li>
-          <li>Leverage our people and processes</li>
-          <li>Elevate their capabilities</li>
-        </ul>
-      </div>
-      <div class="bg-white text-[#003057] p-6 rounded-2xl shadow-lg min-h-[200px]">
-        <h3 class="font-bold">Scale By Adding & Developing People</h3>
-        <ul class="list-disc pl-5 space-y-1">
-          <li>Grow our team’s capabilities</li>
-          <li>We never stop recruiting</li>
-          <li>Mindset that OK to post</li>
-        </ul>
-      </div>
-      <div class="bg-white text-[#003057] p-6 rounded-2xl shadow-lg min-h-[200px]">
-        <h3 class="font-bold">Always Optimize Our Time</h3>
-        <ul class="list-disc pl-5 space-y-1">
-          <li>Optimize for Leverage Index & LC</li>
-          <li>Leverage skills and joy</li>
-          <li>Partner with outside SMEs</li>
-        </ul>
-      </div>
+      <div class="bg-white text-[#003057] p-6 rounded-2xl shadow-lg min-h-[200px]"><h3 class="font-bold">Retain & Expand Largest Check</h3><ul class="list-disc pl-5 space-y-1"><li>We Drive the bus</li><li>Quantify Value w/Tangible Success</li><li>Have Fun – Show we care!</li></ul></div>
+      <div class="bg-white text-[#003057] p-6 rounded-2xl shadow-lg min-h-[200px]"><h3 class="font-bold">Attract New Largest Check Accounts</h3><ul class="list-disc pl-5 space-y-1"><li>Track Alumni</li><li>WATN – Search for “job changes”</li><li>Maintain awareness by bringing them value</li></ul></div>
+      <div class="bg-white text-[#003057] p-6 rounded-2xl shadow-lg min-h-[200px]"><h3 class="font-bold">Scale Thru Acquisition</h3><ul class="list-disc pl-5 space-y-1"><li>Merge existing franchises w/ICP</li><li>Leverage our people and processes</li><li>Elevate their capabilities</li></ul></div>
+      <div class="bg-white text-[#003057] p-6 rounded-2xl shadow-lg min-h-[200px]"><h3 class="font-bold">Scale By Adding & Developing People</h3><ul class="list-disc pl-5 space-y-1"><li>Grow our team’s capabilities</li><li>We never stop recruiting</li><li>Mindset that OK to post</li></ul></div>
+      <div class="bg-white text-[#003057] p-6 rounded-2xl shadow-lg min-h-[200px]"><h3 class="font-bold">Always Optimize Our Time</h3><ul class="list-disc pl-5 space-y-1"><li>Optimize for Leverage Index & LC</li><li>Leverage skills and joy</li><li>Partner with outside SMEs</li></ul></div>
     </div>
   </section>
 
-  <!-- Rocks Section -->
+  <!-- Rocks -->
   <section>
     <h2 class="text-2xl font-bold text-yellow-400 mb-4">25Q3 Rocks</h2>
     <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-      <div class="bg-white text-[#003057] p-6 rounded-2xl shadow-lg min-h-[300px]">
-        <h3 class="font-bold">10X Pipeline</h3>
-        <ul id="pipeline-list" class="list-disc pl-5 space-y-1"></ul>
-      </div>
-      <div class="bg-white text-[#003057] p-6 rounded-2xl shadow-lg min-h-[300px]">
-        <h3 class="font-bold">10X Leads</h3>
-        <ul id="leads-list" class="list-disc pl-5 space-y-1"></ul>
-      </div>
-      <div class="bg-white text-[#003057] p-6 rounded-2xl shadow-lg min-h-[300px]">
-        <h3 class="font-bold">Renewals & Budgets</h3>
-        <ul id="renewals-list" class="list-disc pl-5 space-y-1"></ul>
-      </div>
+      <div class="bg-white text-[#003057] p-6 rounded-2xl shadow-lg min-h-[300px]"><h3 class="font-bold">10X Pipeline</h3><ul id="pipeline-list" class="list-disc pl-5 space-y-1"></ul></div>
+      <div class="bg-white text-[#003057] p-6 rounded-2xl shadow-lg min-h-[300px]"><h3 class="font-bold">10X Leads</h3><ul id="leads-list" class="list-disc pl-5 space-y-1"></ul></div>
+      <div class="bg-white text-[#003057] p-6 rounded-2xl shadow-lg min-h-[300px]"><h3 class="font-bold">Renewals & Budgets</h3><ul id="renewals-list" class="list-disc pl-5 space-y-1"></ul></div>
     </div>
   </section>
 
-  <!-- Client Renewals Countdown (cards) -->
+  <!-- Client Renewals -->
   <section>
-    <h2 class="text-2xl font-bold text-yellow-400 mb-4">Client Renewals</h2>
-    <div id="renewal-cards" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"></div>
-    <div class="mt-4 text-center text-sm text-gray-300">
-      Edit renewals in the <code>clientRenewals</code> list inside <b>index.html</b>
+    <div class="flex items-center justify-between mb-4">
+      <h2 class="text-2xl font-bold text-yellow-400">Client Renewals</h2>
+      <button id="settings-btn" class="text-gray-300 hover:text-yellow-400">⚙️</button>
     </div>
+    <div id="renewal-cards" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"></div>
   </section>
+
+  <!-- Modal -->
+  <div id="settings-modal" class="fixed inset-0 bg-black bg-opacity-50 hidden flex items-center justify-center">
+    <div class="bg-white text-[#003057] p-6 rounded-2xl shadow-lg w-96">
+      <h3 class="font-bold text-lg mb-4">Manage Renewals</h3>
+      <form id="renewal-form" class="space-y-4">
+        <input type="text" id="client-name" placeholder="Client Name" class="w-full border rounded p-2" required />
+        <input type="date" id="client-date" class="w-full border rounded p-2" required />
+        <button type="submit" class="bg-[#003057] text-white px-4 py-2 rounded">Add / Update</button>
+      </form>
+      <button id="close-modal" class="mt-4 text-sm text-gray-500 hover:text-gray-700">Close</button>
+    </div>
+  </div>
 
   <!-- Scripts -->
   <script src="rocks.js"></script>
   <script>
-    // Editable client renewals list
-    const clientRenewals = [
+    // Renewals list from perfect version
+    let clientRenewals = [
       { client: "Altium", date: "2025-03-15" },
       { client: "Origami", date: "2025-04-10" },
       { client: "Agero", date: "2025-05-01" },
       { client: "MRP Solutions", date: "2025-06-20" },
       { client: "NACD", date: "2025-07-15" },
-      { client: "Salesforce", date: "2025-08-01" },
-      { client: "HubSpot", date: "2025-08-15" },
-      { client: "Zoho", date: "2025-09-05" },
-      { client: "Workday", date: "2025-09-20" },
-      { client: "Oracle", date: "2025-10-10" }
+      { client: "HubSpot", date: "2025-08-15" }
     ];
 
     function daysUntil(dateStr) {
@@ -134,7 +95,7 @@
     function renderRenewalCards() {
       const container = document.getElementById("renewal-cards");
       container.innerHTML = "";
-      clientRenewals.forEach(item => {
+      clientRenewals.forEach((item, index) => {
         const days = daysUntil(item.date);
         const card = document.createElement("div");
         card.className = "bg-white text-[#003057] p-6 rounded-2xl shadow-lg text-center";
@@ -142,89 +103,56 @@
           <h3 class="font-bold text-lg mb-2">${item.client}</h3>
           <p class="text-gray-700">Renewal Date: ${new Date(item.date).toLocaleDateString()}</p>
           <p class="text-2xl font-bold text-yellow-500">${days} day${days !== 1 ? "s" : ""} remaining</p>
+          <button class="mt-2 text-sm text-red-500 hover:underline" onclick="deleteRenewal(${index})">Delete</button>
         `;
         container.appendChild(card);
       });
     }
+
+    function deleteRenewal(index) {
+      clientRenewals.splice(index, 1);
+      renderRenewalCards();
+    }
+
+    // Modal
+    const modal = document.getElementById("settings-modal");
+    document.getElementById("settings-btn").onclick = () => modal.classList.remove("hidden");
+    document.getElementById("close-modal").onclick = () => modal.classList.add("hidden");
+
+    // Add renewal
+    document.getElementById("renewal-form").onsubmit = function(e) {
+      e.preventDefault();
+      const name = document.getElementById("client-name").value.trim();
+      const date = document.getElementById("client-date").value;
+      if (name && date) {
+        clientRenewals.push({ client: name, date: date });
+        renderRenewalCards();
+        this.reset();
+      }
+    };
 
     // Rocks
     function renderRocks() {
       const pipelineList = document.getElementById("pipeline-list");
       const leadsList = document.getElementById("leads-list");
       const renewalsList = document.getElementById("renewals-list");
-
-      if (rocks.pipeline && pipelineList) {
-        rocks.pipeline.forEach(item => {
-          const li = document.createElement("li");
-          li.textContent = item;
-          pipelineList.appendChild(li);
-        });
-      }
-      if (rocks.leads && leadsList) {
-        rocks.leads.forEach(item => {
-          const li = document.createElement("li");
-          li.textContent = item;
-          leadsList.appendChild(li);
-        });
-      }
-      if (rocks.renewals && renewalsList) {
-        rocks.renewals.forEach(item => {
-          const li = document.createElement("li");
-          li.textContent = item;
-          renewalsList.appendChild(li);
-        });
-      }
+      if (rocks.pipeline && pipelineList) rocks.pipeline.forEach(item => { let li=document.createElement("li"); li.textContent=item; pipelineList.appendChild(li); });
+      if (rocks.leads && leadsList) rocks.leads.forEach(item => { let li=document.createElement("li"); li.textContent=item; leadsList.appendChild(li); });
+      if (rocks.renewals && renewalsList) rocks.renewals.forEach(item => { let li=document.createElement("li"); li.textContent=item; renewalsList.appendChild(li); });
     }
 
     // Rules
-    const rules = [
-      "Protect the brand.",
-      "Be a product of the product.",
-      "Do the behavior.",
-      "Don’t get creative.",
-      "No drama."
-    ];
-    let currentRule = 0;
-    function rotateRules() {
-      const quoteDiv = document.getElementById("quote");
-      if (quoteDiv) {
-        quoteDiv.textContent = rules[currentRule];
-        currentRule = (currentRule + 1) % rules.length;
-      }
-    }
-    setInterval(rotateRules, 5000);
+    const rules=["Protect the brand.","Be a product of the product.","Do the behavior.","Don’t get creative.","No drama."];
+    let currentRule=0;
+    function rotateRules(){const quoteDiv=document.getElementById("quote");if(quoteDiv){quoteDiv.textContent=rules[currentRule];currentRule=(currentRule+1)%rules.length;}}
+    setInterval(rotateRules,5000);
 
-    // Quarter Countdown
-    function getNextQuarterEnd(date) {
-      const year = date.getFullYear();
-      const quarters = [
-        new Date(year, 2, 31),
-        new Date(year, 5, 30),
-        new Date(year, 8, 30),
-        new Date(year, 11, 31)
-      ];
-      return quarters.find(q => q >= date) || new Date(year + 1, 2, 31);
-    }
-    function updateQuarterCountdown() {
-      const now = new Date();
-      const quarterEnd = getNextQuarterEnd(now);
-      const todayUTC = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate()));
-      const targetUTC = new Date(Date.UTC(quarterEnd.getFullYear(), quarterEnd.getMonth(), quarterEnd.getDate()));
-      const diff = targetUTC - todayUTC;
-      const days = Math.max(0, Math.floor(diff / (1000 * 60 * 60 * 24)));
-      const qcDiv = document.getElementById("quarter-countdown");
-      if (qcDiv) {
-        qcDiv.textContent = days + " day" + (days !== 1 ? "s" : "") + " until quarter end";
-      }
-    }
+    // Quarter countdown
+    function getNextQuarterEnd(date){const year=date.getFullYear();const quarters=[new Date(year,2,31),new Date(year,5,30),new Date(year,8,30),new Date(year,11,31)];return quarters.find(q=>q>=date)||new Date(year+1,2,31);}
+    function updateQuarterCountdown(){const now=new Date();const quarterEnd=getNextQuarterEnd(now);const todayUTC=new Date(Date.UTC(now.getUTCFullYear(),now.getUTCMonth(),now.getUTCDate()));const targetUTC=new Date(Date.UTC(quarterEnd.getFullYear(),quarterEnd.getMonth(),quarterEnd.getDate()));const diff=targetUTC-todayUTC;const days=Math.max(0,Math.floor(diff/(1000*60*60*24)));const qcDiv=document.getElementById("quarter-countdown");if(qcDiv){qcDiv.textContent=days+" day"+(days!==1?"s":"")+" until quarter end";}}
 
-    // DOM load
-    document.addEventListener("DOMContentLoaded", () => {
-      renderRocks();
-      renderRenewalCards();
-      rotateRules();
-      updateQuarterCountdown();
-    });
+    // Init
+    document.addEventListener("DOMContentLoaded",()=>{renderRocks();renderRenewalCards();rotateRules();updateQuarterCountdown();});
   </script>
 </body>
 </html>
