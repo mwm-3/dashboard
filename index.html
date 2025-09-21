@@ -113,77 +113,89 @@
   </section>
 
   <!-- Scripts -->
-  <script src="rocks.js"></script>
-  <script>
-    // Render Rocks
-    function renderRocks() {
-      const pipelineList = document.getElementById("pipeline-list");
-      const leadsList = document.getElementById("leads-list");
-      const renewalsList = document.getElementById("renewals-list");
+ <script src="rocks.js"></script>
+<script>
+  function renderRocks() {
+    const pipelineList = document.getElementById("pipeline-list");
+    const leadsList = document.getElementById("leads-list");
+    const renewalsList = document.getElementById("renewals-list");
 
+    console.log("Rendering Rocks…");
+    console.log("Pipeline items:", rocks.pipeline?.length || 0);
+    console.log("Leads items:", rocks.leads?.length || 0);
+    console.log("Renewals items:", rocks.renewals?.length || 0);
+
+    if (rocks.pipeline && pipelineList) {
       rocks.pipeline.forEach(item => {
         const li = document.createElement("li");
         li.textContent = item;
         pipelineList.appendChild(li);
       });
+    }
 
+    if (rocks.leads && leadsList) {
       rocks.leads.forEach(item => {
         const li = document.createElement("li");
         li.textContent = item;
         leadsList.appendChild(li);
       });
+    }
 
+    if (rocks.renewals && renewalsList) {
       rocks.renewals.forEach(item => {
         const li = document.createElement("li");
         li.textContent = item;
         renewalsList.appendChild(li);
       });
     }
-    document.addEventListener("DOMContentLoaded", renderRocks);
+  }
 
-    // Rotate Rules
-    const rules = [
-      "Protect the brand.",
-      "Be a product of the product.",
-      "Do the behavior.",
-      "Don’t get creative.",
-      "No drama."
-    ];
-    let currentRule = 0;
-    function rotateRules() {
-      const quoteDiv = document.getElementById("quote");
-      if (quoteDiv) {
-        quoteDiv.textContent = rules[currentRule];
-        currentRule = (currentRule + 1) % rules.length;
-      }
-    }
-    setInterval(rotateRules, 5000);
-    document.addEventListener("DOMContentLoaded", rotateRules);
-
-    // Quarter Countdown
-    function getNextQuarterEnd(date) {
-      const year = date.getFullYear();
-      const quarters = [
-        new Date(year, 2, 31),
-        new Date(year, 5, 30),
-        new Date(year, 8, 30),
-        new Date(year, 11, 31)
-      ];
-      return quarters.find(q => q >= date) || new Date(year + 1, 2, 31);
-    }
-    function updateQuarterCountdown() {
-      const now = new Date();
-      const quarterEnd = getNextQuarterEnd(now);
-      const todayUTC = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate()));
-      const targetUTC = new Date(Date.UTC(quarterEnd.getFullYear(), quarterEnd.getMonth(), quarterEnd.getDate()));
-      const diff = targetUTC - todayUTC;
-      const days = Math.max(0, Math.floor(diff / (1000 * 60 * 60 * 24)));
-      const qcDiv = document.getElementById("quarter-countdown");
-      if (qcDiv) {
-        qcDiv.textContent = days + " day" + (days !== 1 ? "s" : "") + " until quarter end";
-      }
-    }
+  document.addEventListener("DOMContentLoaded", () => {
+    renderRocks();
+    rotateRules();
     updateQuarterCountdown();
-  </script>
-</body>
-</html>
+  });
+
+  // Rotate Rules
+  const rules = [
+    "Protect the brand.",
+    "Be a product of the product.",
+    "Do the behavior.",
+    "Don’t get creative.",
+    "No drama."
+  ];
+  let currentRule = 0;
+  function rotateRules() {
+    const quoteDiv = document.getElementById("quote");
+    if (quoteDiv) {
+      quoteDiv.textContent = rules[currentRule];
+      currentRule = (currentRule + 1) % rules.length;
+    }
+  }
+  setInterval(rotateRules, 5000);
+
+  // Quarter Countdown
+  function getNextQuarterEnd(date) {
+    const year = date.getFullYear();
+    const quarters = [
+      new Date(year, 2, 31),
+      new Date(year, 5, 30),
+      new Date(year, 8, 30),
+      new Date(year, 11, 31)
+    ];
+    return quarters.find(q => q >= date) || new Date(year + 1, 2, 31);
+  }
+  function updateQuarterCountdown() {
+    const now = new Date();
+    const quarterEnd = getNextQuarterEnd(now);
+    const todayUTC = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate()));
+    const targetUTC = new Date(Date.UTC(quarterEnd.getFullYear(), quarterEnd.getMonth(), quarterEnd.getDate()));
+    const diff = targetUTC - todayUTC;
+    const days = Math.max(0, Math.floor(diff / (1000 * 60 * 60 * 24)));
+    const qcDiv = document.getElementById("quarter-countdown");
+    if (qcDiv) {
+      qcDiv.textContent = days + " day" + (days !== 1 ? "s" : "") + " until quarter end";
+    }
+  }
+</script>
+
