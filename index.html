@@ -96,16 +96,19 @@
     </div>
   </section>
 
-  <!-- Client Renewals Section (cards) -->
+  <!-- Client Renewals Countdown (cards) -->
   <section>
     <h2 class="text-2xl font-bold text-yellow-400 mb-4">Client Renewals</h2>
     <div id="renewal-cards" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"></div>
+    <div class="mt-4 text-center text-sm text-gray-300">
+      Edit renewals in the <code>clientRenewals</code> list inside <b>index.html</b>
+    </div>
   </section>
 
   <!-- Scripts -->
   <script src="rocks.js"></script>
   <script>
-    // Client renewals list (editable)
+    // Editable client renewals list
     const clientRenewals = [
       { client: "Altium", date: "2025-03-15" },
       { client: "Origami", date: "2025-04-10" },
@@ -119,7 +122,6 @@
       { client: "Oracle", date: "2025-10-10" }
     ];
 
-    // Utility: calculate days remaining
     function daysUntil(dateStr) {
       const now = new Date();
       const target = new Date(dateStr);
@@ -129,7 +131,6 @@
       return Math.max(0, Math.floor(diff / (1000 * 60 * 60 * 24)));
     }
 
-    // Render renewal cards
     function renderRenewalCards() {
       const container = document.getElementById("renewal-cards");
       container.innerHTML = "";
@@ -139,14 +140,14 @@
         card.className = "bg-white text-[#003057] p-6 rounded-2xl shadow-lg text-center";
         card.innerHTML = `
           <h3 class="font-bold text-lg mb-2">${item.client}</h3>
-          <p>Renewal Date: ${new Date(item.date).toLocaleDateString()}</p>
-          <p class="text-xl font-bold">${days} day${days !== 1 ? "s" : ""} remaining</p>
+          <p class="text-gray-700">Renewal Date: ${new Date(item.date).toLocaleDateString()}</p>
+          <p class="text-2xl font-bold text-yellow-500">${days} day${days !== 1 ? "s" : ""} remaining</p>
         `;
         container.appendChild(card);
       });
     }
 
-    // Rocks rendering
+    // Rocks
     function renderRocks() {
       const pipelineList = document.getElementById("pipeline-list");
       const leadsList = document.getElementById("leads-list");
@@ -175,7 +176,7 @@
       }
     }
 
-    // Rules rotation
+    // Rules
     const rules = [
       "Protect the brand.",
       "Be a product of the product.",
@@ -193,7 +194,7 @@
     }
     setInterval(rotateRules, 5000);
 
-    // Quarter countdown
+    // Quarter Countdown
     function getNextQuarterEnd(date) {
       const year = date.getFullYear();
       const quarters = [
