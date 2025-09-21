@@ -48,111 +48,145 @@
     </div>
   </section>
 
-  <!-- Client Renewals -->
+  <!-- Countdown to Renewals (original) -->
   <section>
-    <div class="flex items-center justify-between mb-4">
-      <h2 class="text-2xl font-bold text-yellow-400">Client Renewals</h2>
-      <button id="settings-btn" class="text-gray-300 hover:text-yellow-400">⚙️</button>
-    </div>
-    <div id="renewal-cards" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"></div>
+    <h2 class="text-3xl font-semibold mb-4 text-yellow-400 flex items-center">
+      Upcoming Renewals
+      <span id="settings-gear" class="ml-2 cursor-pointer select-none">⚙️</span>
+    </h2>
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4" id="timers"></div>
   </section>
 
-  <!-- Modal -->
-  <div id="settings-modal" class="fixed inset-0 bg-black bg-opacity-50 hidden flex items-center justify-center">
-    <div class="bg-white text-[#003057] p-6 rounded-2xl shadow-lg w-96">
-      <h3 class="font-bold text-lg mb-4">Manage Renewals</h3>
-      <form id="renewal-form" class="space-y-4">
-        <input type="text" id="client-name" placeholder="Client Name" class="w-full border rounded p-2" required />
-        <input type="date" id="client-date" class="w-full border rounded p-2" required />
-        <button type="submit" class="bg-[#003057] text-white px-4 py-2 rounded">Add / Update</button>
-      </form>
-      <button id="close-modal" class="mt-4 text-sm text-gray-500 hover:text-gray-700">Close</button>
+  <!-- Settings Modal -->
+  <div id="settings-modal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50">
+    <div class="bg-white text-[#003057] p-6 rounded-lg max-w-lg w-full">
+      <h3 class="text-2xl font-bold mb-4">Edit Countdown Items</h3>
+      <div id="event-list" class="space-y-2 max-h-80 overflow-y-auto"></div>
+      <div class="flex justify-between mt-4">
+        <button id="add-event" class="bg-blue-600 text-white py-1 px-2 rounded">Add Event</button>
+        <div>
+          <button id="save-events" class="bg-green-600 text-white py-1 px-3 rounded mr-2">Save</button>
+          <button id="cancel-settings" class="bg-gray-400 text-white py-1 px-3 rounded">Cancel</button>
+        </div>
+      </div>
     </div>
   </div>
 
   <!-- Scripts -->
   <script src="rocks.js"></script>
   <script>
-    // Renewals list from perfect version
-    let clientRenewals = [
-      { client: "Altium", date: "2025-03-15" },
-      { client: "Origami", date: "2025-04-10" },
-      { client: "Agero", date: "2025-05-01" },
-      { client: "MRP Solutions", date: "2025-06-20" },
-      { client: "NACD", date: "2025-07-15" },
-      { client: "HubSpot", date: "2025-08-15" }
+    // Fallback events (original list from perfect version)
+    const fallbackEvents = [
+      { name: "Altium", date: "2025-10-31" },
+      { name: "Zeta", date: "2025-12-31" },
+      { name: "HH", date: "2025-12-31" },
+      { name: "Camfil", date: "2025-12-31" },
+      { name: "2026 Calendar", date: "2025-10-31" },
+      { name: "IPA", date: "2025-12-31" },
+      { name: "Northwest", date: "2025-12-31" },
+      { name: "Kimley", date: "2026-01-31" },
+      { name: "Cars", date: "2026-04-01" },
+      { name: "GBG", date: "2026-06-01" },
+      { name: "Merchology", date: "2025-12-31" },
+      { name: "TradeSchool", date: "2026-02-01" },
+      { name: "MRP", date: "2026-02-02" },
+      { name: "Dornier", date: "2026-04-01" }
     ];
 
-    function daysUntil(dateStr) {
-      const now = new Date();
-      const target = new Date(dateStr);
-      const todayUTC = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate()));
-      const targetUTC = new Date(Date.UTC(target.getFullYear(), target.getMonth(), target.getDate()));
-      const diff = targetUTC - todayUTC;
-      return Math.max(0, Math.floor(diff / (1000 * 60 * 60 * 24)));
-    }
+    let events = [];
 
-    function renderRenewalCards() {
-      const container = document.getElementById("renewal-cards");
-      container.innerHTML = "";
-      clientRenewals.forEach((item, index) => {
-        const days = daysUntil(item.date);
-        const card = document.createElement("div");
-        card.className = "bg-white text-[#003057] p-6 rounded-2xl shadow-lg text-center";
-        card.innerHTML = `
-          <h3 class="font-bold text-lg mb-2">${item.client}</h3>
-          <p class="text-gray-700">Renewal Date: ${new Date(item.date).toLocaleDateString()}</p>
-          <p class="text-2xl font-bold text-yellow-500">${days} day${days !== 1 ? "s" : ""} remaining</p>
-          <button class="mt-2 text-sm text-red-500 hover:underline" onclick="deleteRenewal(${index})">Delete</button>
+    function renderTimers() {
+      events.sort((a, b) => new Date(a.date) - new Date(b.date));
+      const timersDiv = document.getElementById("timers");
+      timersDiv.innerHTML = "";
+      events.forEach((event, index) => {
+        const div = document.createElement("div");
+        div.className = "bg-white text-[#003057] p-4 rounded shadow-md flex justify-between items-center text-sm md:text-base";
+        div.innerHTML = `
+          <span class="font-semibold">${event.name}</span>
+          <span id="timer-${index}" class="countdown text-blue-600"></span>
         `;
-        container.appendChild(card);
+        timersDiv.appendChild(div);
       });
     }
 
-    function deleteRenewal(index) {
-      clientRenewals.splice(index, 1);
-      renderRenewalCards();
+    function updateTimers() {
+      const now = new Date();
+      const todayUTC = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate()));
+      events.forEach((event, index) => {
+        const el = document.getElementById("timer-" + index);
+        if (!el) return;
+        const targetUTC = new Date(event.date + "T00:00:00Z");
+        const diff = targetUTC - todayUTC;
+        const days = Math.max(0, Math.floor(diff / (1000 * 60 * 60 * 24)));
+        el.textContent = days + " day" + (days !== 1 ? "s" : "") + " left";
+        el.style.color = days <= 90 ? "#dc2626" : "#2563eb";
+      });
     }
 
-    // Modal
-    const modal = document.getElementById("settings-modal");
-    document.getElementById("settings-btn").onclick = () => modal.classList.remove("hidden");
-    document.getElementById("close-modal").onclick = () => modal.classList.add("hidden");
+    function renderEventList() {
+      const listDiv = document.getElementById("event-list");
+      listDiv.innerHTML = "";
+      events.forEach((event, index) => {
+        const row = document.createElement("div");
+        row.className = "flex space-x-2 items-center";
+        row.innerHTML = `
+          <input type="text" value="${event.name}" class="border p-1 flex-1 bg-gray-100 rounded" />
+          <input type="date" value="${event.date}" class="border p-1 bg-gray-100 rounded" />
+          <button class="bg-red-500 text-white px-2 py-1 rounded remove-event" data-index="${index}">Remove</button>
+        `;
+        listDiv.appendChild(row);
+      });
+    }
 
-    // Add renewal
-    document.getElementById("renewal-form").onsubmit = function(e) {
-      e.preventDefault();
-      const name = document.getElementById("client-name").value.trim();
-      const date = document.getElementById("client-date").value;
-      if (name && date) {
-        clientRenewals.push({ client: name, date: date });
-        renderRenewalCards();
-        this.reset();
-      }
-    };
+    function openSettings() { renderEventList(); document.getElementById("settings-modal").classList.remove("hidden"); }
+    function closeSettings() { document.getElementById("settings-modal").classList.add("hidden"); }
+    function addEventRow() { events.push({ name: "New Event", date: new Date().toISOString().split("T")[0] }); renderEventList(); }
+    function saveEvents() {
+      const rows = document.querySelectorAll("#event-list div.flex");
+      const updated = [];
+      rows.forEach(row => {
+        const inputs = row.querySelectorAll("input");
+        const name = inputs[0].value.trim();
+        const date = inputs[1].value;
+        if (name && date) updated.push({ name, date });
+      });
+      events = updated; renderTimers(); updateTimers(); closeSettings();
+    }
+
+    function initSettingsControls() {
+      document.getElementById("settings-gear").addEventListener("click", openSettings);
+      document.getElementById("cancel-settings").addEventListener("click", closeSettings);
+      document.getElementById("add-event").addEventListener("click", addEventRow);
+      document.getElementById("save-events").addEventListener("click", saveEvents);
+      document.getElementById("event-list").addEventListener("click", (e) => {
+        if (e.target.classList.contains("remove-event")) {
+          const idx = parseInt(e.target.getAttribute("data-index"));
+          if (!isNaN(idx)) { events.splice(idx, 1); renderEventList(); }
+        }
+      });
+    }
 
     // Rocks
     function renderRocks() {
       const pipelineList = document.getElementById("pipeline-list");
       const leadsList = document.getElementById("leads-list");
       const renewalsList = document.getElementById("renewals-list");
-      if (rocks.pipeline && pipelineList) rocks.pipeline.forEach(item => { let li=document.createElement("li"); li.textContent=item; pipelineList.appendChild(li); });
-      if (rocks.leads && leadsList) rocks.leads.forEach(item => { let li=document.createElement("li"); li.textContent=item; leadsList.appendChild(li); });
-      if (rocks.renewals && renewalsList) rocks.renewals.forEach(item => { let li=document.createElement("li"); li.textContent=item; renewalsList.appendChild(li); });
+      if (rocks.pipeline) rocks.pipeline.forEach(i => { let li=document.createElement("li"); li.textContent=i; pipelineList.appendChild(li); });
+      if (rocks.leads) rocks.leads.forEach(i => { let li=document.createElement("li"); li.textContent=i; leadsList.appendChild(li); });
+      if (rocks.renewals) rocks.renewals.forEach(i => { let li=document.createElement("li"); li.textContent=i; renewalsList.appendChild(li); });
     }
 
     // Rules
     const rules=["Protect the brand.","Be a product of the product.","Do the behavior.","Don’t get creative.","No drama."];
-    let currentRule=0;
-    function rotateRules(){const quoteDiv=document.getElementById("quote");if(quoteDiv){quoteDiv.textContent=rules[currentRule];currentRule=(currentRule+1)%rules.length;}}
+    let currentRule=0; function rotateRules(){const q=document.getElementById("quote"); if(q){q.textContent=rules[currentRule]; currentRule=(currentRule+1)%rules.length;}}
     setInterval(rotateRules,5000);
 
     // Quarter countdown
-    function getNextQuarterEnd(date){const year=date.getFullYear();const quarters=[new Date(year,2,31),new Date(year,5,30),new Date(year,8,30),new Date(year,11,31)];return quarters.find(q=>q>=date)||new Date(year+1,2,31);}
-    function updateQuarterCountdown(){const now=new Date();const quarterEnd=getNextQuarterEnd(now);const todayUTC=new Date(Date.UTC(now.getUTCFullYear(),now.getUTCMonth(),now.getUTCDate()));const targetUTC=new Date(Date.UTC(quarterEnd.getFullYear(),quarterEnd.getMonth(),quarterEnd.getDate()));const diff=targetUTC-todayUTC;const days=Math.max(0,Math.floor(diff/(1000*60*60*24)));const qcDiv=document.getElementById("quarter-countdown");if(qcDiv){qcDiv.textContent=days+" day"+(days!==1?"s":"")+" until quarter end";}}
+    function getNextQuarterEnd(d){const y=d.getFullYear();const q=[new Date(y,2,31),new Date(y,5,30),new Date(y,8,30),new Date(y,11,31)];return q.find(x=>x>=d)||new Date(y+1,2,31);}
+    function updateQuarterCountdown(){const now=new Date();const qe=getNextQuarterEnd(now);const todayUTC=new Date(Date.UTC(now.getUTCFullYear(),now.getUTCMonth(),now.getUTCDate()));const targetUTC=new Date(Date.UTC(qe.getFullYear(),qe.getMonth(),qe.getDate()));const diff=targetUTC-todayUTC;const days=Math.max(0,Math.floor(diff/(1000*60*60*24)));const qc=document.getElementById("quarter-countdown");if(qc){qc.textContent=days+" day"+(days!==1?"s":"")+" until quarter end";}}
 
-    // Init
-    document.addEventListener("DOMContentLoaded",()=>{renderRocks();renderRenewalCards();rotateRules();updateQuarterCountdown();});
+    document.addEventListener("DOMContentLoaded",()=>{events=fallbackEvents;renderRocks();renderTimers();updateTimers();setInterval(updateTimers,86400000);initSettingsControls();rotateRules();updateQuarterCountdown();});
   </script>
 </body>
 </html>
