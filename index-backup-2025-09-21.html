@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sales Engine Dashboard</title>
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="icon" href="data:,">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body { font-family: "Poppins", sans-serif; }
+  </style>
+</head>
+<body class="bg-[#003057] text-white p-6 space-y-6">
+
+  <!-- Header -->
+  <section>
+    <div class="bg-white text-[#003057] p-6 rounded-2xl shadow-lg flex flex-col md:flex-row items-center justify-between">
+      <div class="flex-shrink-0">
+        <img src="Sandler Logo NEW 2024 Blue.png" alt="Sandler Logo" class="h-10 md:h-12">
+      </div>
+      <div id="quote" class="flex-1 text-xl md:text-2xl italic text-center px-4" aria-live="polite"></div>
+      <div id="quarter-countdown" class="text-xl md:text-2xl font-bold flex-shrink-0 md:ml-4"></div>
+    </div>
+  </section>
+
+  <!-- Strategy -->
+  <section>
+    <h2 class="text-2xl font-bold text-yellow-400 mb-4">Strategy to Scale to $2M/Trimester (Mt. Washington)</h2>
+    <div class="grid grid-cols-1 md:grid-cols-5 gap-4">
+      <div class="bg-white text-[#003057] p-6 rounded-2xl shadow-lg min-h-[200px]"><h3 class="font-bold">Retain & Expand Largest Check</h3><ul class="list-disc pl-5 space-y-1"><li>We Drive the bus</li><li>Quantify Value w/Tangible Success</li><li>Have Fun – Show we care!</li></ul></div>
+      <div class="bg-white text-[#003057] p-6 rounded-2xl shadow-lg min-h-[200px]"><h3 class="font-bold">Attract New Largest Check Accounts</h3><ul class="list-disc pl-5 space-y-1"><li>Track Alumni</li><li>WATN – Search for “job changes”</li><li>Maintain awareness by bringing them value</li></ul></div>
+      <div class="bg-white text-[#003057] p-6 rounded-2xl shadow-lg min-h-[200px]"><h3 class="font-bold">Scale Thru Acquisition</h3><ul class="list-disc pl-5 space-y-1"><li>Merge existing franchises w/ICP</li><li>Leverage our people and processes</li><li>Elevate their capabilities</li></ul></div>
+      <div class="bg-white text-[#003057] p-6 rounded-2xl shadow-lg min-h-[200px]"><h3 class="font-bold">Scale By Adding & Developing People</h3><ul class="list-disc pl-5 space-y-1"><li>Grow our team’s capabilities</li><li>We never stop recruiting</li><li>Mindset that OK to post</li></ul></div>
+      <div class="bg-white text-[#003057] p-6 rounded-2xl shadow-lg min-h-[200px]"><h3 class="font-bold">Always Optimize Our Time</h3><ul class="list-disc pl-5 space-y-1"><li>Optimize for Leverage Index & LC</li><li>Leverage skills and joy</li><li>Partner with outside SMEs</li></ul></div>
+    </div>
+  </section>
+
+  <!-- Rocks -->
+  <section>
+    <h2 class="text-2xl font-bold text-yellow-400 mb-4">25Q4 Rocks</h2>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+      <div class="bg-white text-[#003057] p-6 rounded-2xl shadow-lg min-h-[300px]"><h3 class="font-bold">10X Pipeline</h3><ul id="pipeline-list" class="list-disc pl-5 space-y-1"></ul></div>
+      <div class="bg-white text-[#003057] p-6 rounded-2xl shadow-lg min-h-[300px]"><h3 class="font-bold">10X Leads</h3><ul id="leads-list" class="list-disc pl-5 space-y-1"></ul></div>
+      <div class="bg-white text-[#003057] p-6 rounded-2xl shadow-lg min-h-[300px]"><h3 class="font-bold">Renewals & Budgets</h3><ul id="renewals-list" class="list-disc pl-5 space-y-1"></ul></div>
+    </div>
+  </section>
+
+  <!-- Countdown to Renewals (original) -->
+  <section>
+    <h2 class="text-3xl font-semibold mb-4 text-yellow-400 flex items-center">
+      Upcoming Renewals
+      <span id="settings-gear" class="ml-2 cursor-pointer select-none">⚙️</span>
+    </h2>
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4" id="timers"></div>
+  </section>
+
+  <!-- Settings Modal -->
+  <div id="settings-modal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50">
+    <div class="bg-white text-[#003057] p-6 rounded-lg max-w-lg w-full">
+      <h3 class="text-2xl font-bold mb-4">Edit Countdown Items</h3>
+      <div id="event-list" class="space-y-2 max-h-80 overflow-y-auto"></div>
+      <div class="flex justify-between mt-4">
+        <button id="add-event" class="bg-blue-600 text-white py-1 px-2 rounded">Add Event</button>
+        <div>
+          <button id="save-events" class="bg-green-600 text-white py-1 px-3 rounded mr-2">Save</button>
+          <button id="cancel-settings" class="bg-gray-400 text-white py-1 px-3 rounded">Cancel</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="rocks.js"></script>
+  <script>
+    // Fallback events (original list from perfect version)
+    const fallbackEvents = [
+      { name: "Altium", date: "2025-10-31" },
+      { name: "Zeta", date: "2025-12-31" },
+      { name: "HH", date: "2025-12-31" },
+      { name: "Camfil", date: "2025-12-31" },
+      { name: "2026 Calendar", date: "2025-10-31" },
+      { name: "IPA", date: "2025-12-31" },
+      { name: "Northwest", date: "2025-12-31" },
+      { name: "Kimley", date: "2026-01-31" },
+      { name: "Cars", date: "2026-04-01" },
+      { name: "GBG", date: "2026-06-01" },
+      { name: "Merchology", date: "2025-12-31" },
+      { name: "TradeSchool", date: "2026-02-01" },
+      { name: "MRP", date: "2026-02-02" },
+      { name: "Dornier", date: "2026-04-01" }
+    ];
+
+    let events = [];
+
+    function renderTimers() {
+      events.sort((a, b) => new Date(a.date) - new Date(b.date));
+      const timersDiv = document.getElementById("timers");
+      timersDiv.innerHTML = "";
+      events.forEach((event, index) => {
+        const div = document.createElement("div");
+        div.className = "bg-white text-[#003057] p-4 rounded shadow-md flex justify-between items-center text-sm md:text-base";
+        div.innerHTML = `
+          <span class="font-semibold">${event.name}</span>
+          <span id="timer-${index}" class="countdown text-blue-600"></span>
+        `;
+        timersDiv.appendChild(div);
+      });
+    }
+
+    function updateTimers() {
+      const now = new Date();
+      const todayUTC = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate()));
+      events.forEach((event, index) => {
+        const el = document.getElementById("timer-" + index);
+        if (!el) return;
+        const targetUTC = new Date(event.date + "T00:00:00Z");
+        const diff = targetUTC - todayUTC;
+        const days = Math.max(0, Math.floor(diff / (1000 * 60 * 60 * 24)));
+        el.textContent = days + " day" + (days !== 1 ? "s" : "") + " left";
+        el.style.color = days <= 90 ? "#dc2626" : "#2563eb";
+      });
+    }
+
+    function renderEventList() {
+      const listDiv = document.getElementById("event-list");
+      listDiv.innerHTML = "";
+      events.forEach((event, index) => {
+        const row = document.createElement("div");
+        row.className = "flex space-x-2 items-center";
+        row.innerHTML = `
+          <input type="text" value="${event.name}" class="border p-1 flex-1 bg-gray-100 rounded" />
+          <input type="date" value="${event.date}" class="border p-1 bg-gray-100 rounded" />
+          <button class="bg-red-500 text-white px-2 py-1 rounded remove-event" data-index="${index}">Remove</button>
+        `;
+        listDiv.appendChild(row);
+      });
+    }
+
+    function openSettings() { renderEventList(); document.getElementById("settings-modal").classList.remove("hidden"); }
+    function closeSettings() { document.getElementById("settings-modal").classList.add("hidden"); }
+    function addEventRow() { events.push({ name: "New Event", date: new Date().toISOString().split("T")[0] }); renderEventList(); }
+    function saveEvents() {
+      const rows = document.querySelectorAll("#event-list div.flex");
+      const updated = [];
+      rows.forEach(row => {
+        const inputs = row.querySelectorAll("input");
+        const name = inputs[0].value.trim();
+        const date = inputs[1].value;
+        if (name && date) updated.push({ name, date });
+      });
+      events = updated; renderTimers(); updateTimers(); closeSettings();
+    }
+
+    function initSettingsControls() {
+      document.getElementById("settings-gear").addEventListener("click", openSettings);
+      document.getElementById("cancel-settings").addEventListener("click", closeSettings);
+      document.getElementById("add-event").addEventListener("click", addEventRow);
+      document.getElementById("save-events").addEventListener("click", saveEvents);
+      document.getElementById("event-list").addEventListener("click", (e) => {
+        if (e.target.classList.contains("remove-event")) {
+          const idx = parseInt(e.target.getAttribute("data-index"));
+          if (!isNaN(idx)) { events.splice(idx, 1); renderEventList(); }
+        }
+      });
+    }
+
+    // Rocks
+    function renderRocks() {
+      const pipelineList = document.getElementById("pipeline-list");
+      const leadsList = document.getElementById("leads-list");
+      const renewalsList = document.getElementById("renewals-list");
+      if (rocks.pipeline) rocks.pipeline.forEach(i => { let li=document.createElement("li"); li.textContent=i; pipelineList.appendChild(li); });
+      if (rocks.leads) rocks.leads.forEach(i => { let li=document.createElement("li"); li.textContent=i; leadsList.appendChild(li); });
+      if (rocks.renewals) rocks.renewals.forEach(i => { let li=document.createElement("li"); li.textContent=i; renewalsList.appendChild(li); });
+    }
+
+    // Rules
+    const rules=["Protect the brand.","Be a product of the product.","Do the behavior.","Don’t get creative.","No drama."];
+    let currentRule=0; function rotateRules(){const q=document.getElementById("quote"); if(q){q.textContent=rules[currentRule]; currentRule=(currentRule+1)%rules.length;}}
+    setInterval(rotateRules,5000);
+
+    // Quarter countdown
+    function getNextQuarterEnd(d){const y=d.getFullYear();const q=[new Date(y,2,31),new Date(y,5,30),new Date(y,8,30),new Date(y,11,31)];return q.find(x=>x>=d)||new Date(y+1,2,31);}
+    function updateQuarterCountdown(){const now=new Date();const qe=getNextQuarterEnd(now);const todayUTC=new Date(Date.UTC(now.getUTCFullYear(),now.getUTCMonth(),now.getUTCDate()));const targetUTC=new Date(Date.UTC(qe.getFullYear(),qe.getMonth(),qe.getDate()));const diff=targetUTC-todayUTC;const days=Math.max(0,Math.floor(diff/(1000*60*60*24)));const qc=document.getElementById("quarter-countdown");if(qc){qc.textContent=days+" day"+(days!==1?"s":"")+" until quarter end";}}
+
+    document.addEventListener("DOMContentLoaded",()=>{events=fallbackEvents;renderRocks();renderTimers();updateTimers();setInterval(updateTimers,86400000);initSettingsControls();rotateRules();updateQuarterCountdown();});
+  </script>
+</body>
+</html>
