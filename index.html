@@ -96,18 +96,16 @@
     </div>
   </section>
 
-  <!-- Client Renewals Countdown -->
+  <!-- Client Renewals Section (cards) -->
   <section>
-    <div class="bg-white text-[#003057] p-6 rounded-2xl shadow-lg">
-      <h2 class="text-xl font-bold mb-4 text-center">Client Renewals</h2>
-      <ul id="client-renewals" class="space-y-2"></ul>
-    </div>
+    <h2 class="text-2xl font-bold text-yellow-400 mb-4">Client Renewals</h2>
+    <div id="renewal-cards" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"></div>
   </section>
 
   <!-- Scripts -->
   <script src="rocks.js"></script>
   <script>
-    // Example renewal events (editable list)
+    // Client renewals list (editable)
     const clientRenewals = [
       { client: "Altium", date: "2025-03-15" },
       { client: "Origami", date: "2025-04-10" },
@@ -121,7 +119,7 @@
       { client: "Oracle", date: "2025-10-10" }
     ];
 
-    // Utility to calculate days remaining
+    // Utility: calculate days remaining
     function daysUntil(dateStr) {
       const now = new Date();
       const target = new Date(dateStr);
@@ -131,18 +129,24 @@
       return Math.max(0, Math.floor(diff / (1000 * 60 * 60 * 24)));
     }
 
-    // Render Client Renewals
-    function renderClientRenewals() {
-      const list = document.getElementById("client-renewals");
+    // Render renewal cards
+    function renderRenewalCards() {
+      const container = document.getElementById("renewal-cards");
+      container.innerHTML = "";
       clientRenewals.forEach(item => {
-        const li = document.createElement("li");
         const days = daysUntil(item.date);
-        li.textContent = `${item.client} — ${days} day${days !== 1 ? "s" : ""}`;
-        list.appendChild(li);
+        const card = document.createElement("div");
+        card.className = "bg-white text-[#003057] p-6 rounded-2xl shadow-lg text-center";
+        card.innerHTML = `
+          <h3 class="font-bold text-lg mb-2">${item.client}</h3>
+          <p>Renewal Date: ${new Date(item.date).toLocaleDateString()}</p>
+          <p class="text-xl font-bold">${days} day${days !== 1 ? "s" : ""} remaining</p>
+        `;
+        container.appendChild(card);
       });
     }
 
-    // Render Rocks
+    // Rocks rendering
     function renderRocks() {
       const pipelineList = document.getElementById("pipeline-list");
       const leadsList = document.getElementById("leads-list");
@@ -155,7 +159,6 @@
           pipelineList.appendChild(li);
         });
       }
-
       if (rocks.leads && leadsList) {
         rocks.leads.forEach(item => {
           const li = document.createElement("li");
@@ -163,7 +166,6 @@
           leadsList.appendChild(li);
         });
       }
-
       if (rocks.renewals && renewalsList) {
         rocks.renewals.forEach(item => {
           const li = document.createElement("li");
@@ -173,7 +175,7 @@
       }
     }
 
-    // Rotating Rules
+    // Rules rotation
     const rules = [
       "Protect the brand.",
       "Be a product of the product.",
@@ -191,7 +193,7 @@
     }
     setInterval(rotateRules, 5000);
 
-    // Quarter Countdown
+    // Quarter countdown
     function getNextQuarterEnd(date) {
       const year = date.getFullYear();
       const quarters = [
@@ -215,10 +217,10 @@
       }
     }
 
-    // DOM Load
+    // DOM load
     document.addEventListener("DOMContentLoaded", () => {
       renderRocks();
-      renderClientRenewals();
+      renderRenewalCards();
       rotateRules();
       updateQuarterCountdown();
     });
