@@ -22,29 +22,17 @@
   <section>
     <div class="bg-white text-[#003057] p-6 rounded-2xl shadow-lg 
                 flex flex-col md:flex-row items-center justify-between">
-
-      <!-- Left: Logo -->
       <div class="flex-shrink-0">
-        <img src="Sandler Logo NEW 2024 Blue.png" 
-             alt="Sandler Logo" class="h-10 md:h-12">
+        <img src="Sandler Logo NEW 2024 Blue.png" alt="Sandler Logo" class="h-10 md:h-12">
       </div>
-
-      <!-- Center: Rotating Rule -->
-      <div id="quote" 
-           class="flex-1 text-xl md:text-2xl italic text-center px-4" 
-           aria-live="polite"></div>
-
-      <!-- Right: Countdown -->
-      <div id="quarter-countdown" 
-           class="text-xl md:text-2xl font-bold flex-shrink-0 md:ml-4"></div>
+      <div id="quote" class="flex-1 text-xl md:text-2xl italic text-center px-4" aria-live="polite"></div>
+      <div id="quarter-countdown" class="text-xl md:text-2xl font-bold flex-shrink-0 md:ml-4"></div>
     </div>
   </section>
 
   <!-- Strategy Section -->
   <section>
-    <h2 class="text-2xl font-bold text-yellow-400 mb-4">
-      Strategy to Scale to $2M/Trimester (Mt. Washington)
-    </h2>
+    <h2 class="text-2xl font-bold text-yellow-400 mb-4">Strategy to Scale to $2M/Trimester (Mt. Washington)</h2>
     <div class="grid grid-cols-1 md:grid-cols-5 gap-4">
       <div class="bg-white text-[#003057] p-6 rounded-2xl shadow-lg min-h-[200px]">
         <h3 class="font-bold">Retain & Expand Largest Check</h3>
@@ -93,39 +81,67 @@
   <section>
     <h2 class="text-2xl font-bold text-yellow-400 mb-4">25Q3 Rocks</h2>
     <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-
-      <!-- Pipeline -->
       <div class="bg-white text-[#003057] p-6 rounded-2xl shadow-lg min-h-[300px]">
         <h3 class="font-bold">10X Pipeline</h3>
         <ul id="pipeline-list" class="list-disc pl-5 space-y-1"></ul>
       </div>
-
-      <!-- Leads -->
       <div class="bg-white text-[#003057] p-6 rounded-2xl shadow-lg min-h-[300px]">
         <h3 class="font-bold">10X Leads</h3>
         <ul id="leads-list" class="list-disc pl-5 space-y-1"></ul>
       </div>
-
-      <!-- Renewals -->
       <div class="bg-white text-[#003057] p-6 rounded-2xl shadow-lg min-h-[300px]">
         <h3 class="font-bold">Renewals & Budgets</h3>
         <ul id="renewals-list" class="list-disc pl-5 space-y-1"></ul>
       </div>
-
     </div>
   </section>
 
-  <!-- Countdown to Renewals Section -->
+  <!-- Client Renewals Countdown -->
   <section>
-    <div class="bg-white text-[#003057] p-6 rounded-2xl shadow-lg text-center">
-      <h2 class="text-xl font-bold mb-2">Countdown to Renewals</h2>
-      <div id="renewals-countdown" class="text-2xl font-bold"></div>
+    <div class="bg-white text-[#003057] p-6 rounded-2xl shadow-lg">
+      <h2 class="text-xl font-bold mb-4 text-center">Client Renewals</h2>
+      <ul id="client-renewals" class="space-y-2"></ul>
     </div>
   </section>
 
   <!-- Scripts -->
   <script src="rocks.js"></script>
   <script>
+    // Example renewal events (editable list)
+    const clientRenewals = [
+      { client: "Altium", date: "2025-03-15" },
+      { client: "Origami", date: "2025-04-10" },
+      { client: "Agero", date: "2025-05-01" },
+      { client: "MRP Solutions", date: "2025-06-20" },
+      { client: "NACD", date: "2025-07-15" },
+      { client: "Salesforce", date: "2025-08-01" },
+      { client: "HubSpot", date: "2025-08-15" },
+      { client: "Zoho", date: "2025-09-05" },
+      { client: "Workday", date: "2025-09-20" },
+      { client: "Oracle", date: "2025-10-10" }
+    ];
+
+    // Utility to calculate days remaining
+    function daysUntil(dateStr) {
+      const now = new Date();
+      const target = new Date(dateStr);
+      const todayUTC = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate()));
+      const targetUTC = new Date(Date.UTC(target.getFullYear(), target.getMonth(), target.getDate()));
+      const diff = targetUTC - todayUTC;
+      return Math.max(0, Math.floor(diff / (1000 * 60 * 60 * 24)));
+    }
+
+    // Render Client Renewals
+    function renderClientRenewals() {
+      const list = document.getElementById("client-renewals");
+      clientRenewals.forEach(item => {
+        const li = document.createElement("li");
+        const days = daysUntil(item.date);
+        li.textContent = `${item.client} — ${days} day${days !== 1 ? "s" : ""}`;
+        list.appendChild(li);
+      });
+    }
+
     // Render Rocks
     function renderRocks() {
       const pipelineList = document.getElementById("pipeline-list");
@@ -157,14 +173,7 @@
       }
     }
 
-    document.addEventListener("DOMContentLoaded", () => {
-      renderRocks();
-      rotateRules();
-      updateQuarterCountdown();
-      updateRenewalsCountdown();
-    });
-
-    // Rotate Rules
+    // Rotating Rules
     const rules = [
       "Protect the brand.",
       "Be a product of the product.",
@@ -206,29 +215,13 @@
       }
     }
 
-    // Renewals Countdown
-    function getNextRenewal(date) {
-      const year = date.getFullYear();
-      const renewals = [
-        new Date(year, 2, 1),   // March 1
-        new Date(year, 5, 1),   // June 1
-        new Date(year, 8, 1),   // Sept 1
-        new Date(year, 11, 1)   // Dec 1
-      ];
-      return renewals.find(r => r >= date) || new Date(year + 1, 2, 1);
-    }
-    function updateRenewalsCountdown() {
-      const now = new Date();
-      const renewalDate = getNextRenewal(now);
-      const todayUTC = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate()));
-      const targetUTC = new Date(Date.UTC(renewalDate.getFullYear(), renewalDate.getMonth(), renewalDate.getDate()));
-      const diff = targetUTC - todayUTC;
-      const days = Math.max(0, Math.floor(diff / (1000 * 60 * 60 * 24)));
-      const rcDiv = document.getElementById("renewals-countdown");
-      if (rcDiv) {
-        rcDiv.textContent = days + " day" + (days !== 1 ? "s" : "") + " until renewals";
-      }
-    }
+    // DOM Load
+    document.addEventListener("DOMContentLoaded", () => {
+      renderRocks();
+      renderClientRenewals();
+      rotateRules();
+      updateQuarterCountdown();
+    });
   </script>
 </body>
 </html>
