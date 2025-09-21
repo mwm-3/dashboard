@@ -115,6 +115,7 @@
   <!-- Scripts -->
   <script src="rocks.js"></script>
   <script>
+    // Render Rocks
     function renderRocks() {
       const pipelineList = document.getElementById("pipeline-list");
       const leadsList = document.getElementById("leads-list");
@@ -138,10 +139,28 @@
         renewalsList.appendChild(li);
       });
     }
-
     document.addEventListener("DOMContentLoaded", renderRocks);
 
-    // Countdown function (your existing code)
+    // Rotate Rules
+    const rules = [
+      "Protect the brand.",
+      "Be a product of the product.",
+      "Do the behavior.",
+      "Don’t get creative.",
+      "No drama."
+    ];
+    let currentRule = 0;
+    function rotateRules() {
+      const quoteDiv = document.getElementById("quote");
+      if (quoteDiv) {
+        quoteDiv.textContent = rules[currentRule];
+        currentRule = (currentRule + 1) % rules.length;
+      }
+    }
+    setInterval(rotateRules, 5000);
+    document.addEventListener("DOMContentLoaded", rotateRules);
+
+    // Quarter Countdown
     function getNextQuarterEnd(date) {
       const year = date.getFullYear();
       const quarters = [
@@ -152,7 +171,6 @@
       ];
       return quarters.find(q => q >= date) || new Date(year + 1, 2, 31);
     }
-
     function updateQuarterCountdown() {
       const now = new Date();
       const quarterEnd = getNextQuarterEnd(now);
@@ -165,7 +183,6 @@
         qcDiv.textContent = days + " day" + (days !== 1 ? "s" : "") + " until quarter end";
       }
     }
-
     updateQuarterCountdown();
   </script>
 </body>
