@@ -1,18 +1,31 @@
-<div class="max-w-7xl mx-auto space-y-10">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sales Engine Dashboard</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    @font-face {
+      font-family: "Poppins";
+      src: url("fonts/Poppins-Regular.ttf") format("truetype");
+      font-weight: 400;
+      font-style: normal;
+      font-display: swap;
+    }
+    body {
+      font-family: "Poppins", sans-serif;
+    }
+    .countdown {
+      font-variant-numeric: tabular-nums;
+      transition: color 0.3s ease-in-out;
+    }
+  </style>
+</head>
+<body class="bg-[#003057] text-white p-6 font-sans">
+  <div class="max-w-7xl mx-auto space-y-10">
 
-<!-- Rotating Quotes / Rules Section with Logo -->
-    <section>
-      <div class="bg-white text-[#003057] p-6 rounded-2xl shadow-lg flex flex-col md:flex-row items-center justify-between">
-                <div class="flex flex-col md:flex-row items-center justify-center">
-          <!-- logo on the left -->
-          <img src="Sandler Logo NEW 2024 Blue.png"
-               alt="Sandler Logo"
-               class="h-10 md:h-12 md:mr-4">
-          <!-- rotating rule on the right -->
-          <div id="quote"
-               class="text-xl md:text-2xl italic md:text-left"
-               aria-live="polite"></div>
-        </div>
+    <!-- Rotating Quotes / Rules Section with Logo -->
 <div class="bg-white text-[#003057] p-6 rounded-2xl shadow-lg flex
  flex-col md:flex-row items-center">
   <div class="flex flex-col md:flex-row items-center justify-center flex-1">
@@ -28,9 +41,360 @@
   <div id="quarter-countdown" class="text-xl md:text-2xl font-bold mt-4 md:mt-0 md:ml-4"></div>
 </div>
 
-    <div id="quarter-countdown" class="text-xl md:text-2xl font-bold mt-4 md:mt-0 md:ml-4"></div>
+
+    <!-- Strategy Section -->
+    <section>
+      <h2 class="text-3xl font-semibold mb-4 text-yellow-400">Strategy to Scale to $2M/Trimester (Mt. Washington)</h2>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+        <div class="bg-white text-[#003057] rounded-xl p-4 shadow">
+          <h3 class="font-bold">Retain & Expand Largest Check</h3>
+          <ul class="list-disc ml-4 mt-2 text-sm">
+            <li>We Drive the bus</li>
+            <li>Quantify Value w/Tangible Success</li>
+            <li>Have Fun - Show we care!</li>
+          </ul>
+        </div>
+        <div class="bg-white text-[#003057] rounded-xl p-4 shadow">
+          <h3 class="font-bold">Attract New Largest Check Accounts</h3>
+          <ul class="list-disc ml-4 mt-2 text-sm">
+            <li>Track Alumni</li>
+            <li>WATN- Search for “job changes”</li>
+            <li>Maintain awareness by bringing them value</li>
+          </ul>
+        </div>
+        <div class="bg-white text-[#003057] rounded-xl p-4 shadow">
+          <h3 class="font-bold">Scale Thru Acquisition</h3>
+          <ul class="list-disc ml-4 mt-2 text-sm">
+            <li>Merge existing franchises w/ICP</li>
+            <li>Leverage our people and processes</li>
+            <li>Elevate their capabilities</li>
+          </ul>
+        </div>
+        <div class="bg-white text-[#003057] rounded-xl p-4 shadow">
+          <h3 class="font-bold">Scale By Adding & Developing People</h3>
+          <ul class="list-disc ml-4 mt-2 text-sm">
+            <li>Grow our team’s capabilities</li>
+            <li>We never stop recruiting</li>
+            <li>Mindset that OK to post</li>
+          </ul>
+        </div>
+        <div class="bg-white text-[#003057] rounded-xl p-4 shadow">
+          <h3 class="font-bold">Always Optimize Our Time</h3>
+          <ul class="list-disc ml-4 mt-2 text-sm">
+            <li>Optimize for Leverage Index & LC</li>
+            <li>Leverage skills and joy</li>
+            <li>Partner with outside SMEs</li>
+          </ul>
+        </div>
       </div>
     </section>
 
-<!-- Strategy Section -->
-<section>
+    <!-- Top 3 Goals -->
+    <section>
+      <h1 class="text-3xl font-bold mb-4 text-yellow-400">25Q3 Rocks</h1>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 w-full">
+        <div class="bg-white text-[#003057] p-4 rounded-xl shadow-md">
+          <p class="text-xl font-bold mb-2">10X Pipeline</p>
+          <ul class="list-disc ml-5 text-sm leading-snug">
+            <li>Mark spends X% more on “Producer” Activities</li>
+            <li>Chris is on track to $388K</li>
+            <li>Packaging plan executed</li>
+            <li>Josh shifts to LC prospecting</li>
+            <li>Know Packaging: Know players. Win big through NACD.</li>
+            <li>Leverage our partners like: JOB, Alicia</li>
+          </ul>
+        </div>
+        <div class="bg-white text-[#003057] p-4 rounded-xl shadow-md">
+          <p class="text-xl font-bold mb-2">10X Leads</p>
+          <ul class="list-disc ml-5 text-sm leading-snug">
+            <li>We’re email marketing and LinkedIn messaging our alumni successfully</li>
+            <li>Podcast Doubles Audience to 200 Downloads/Episode</li>
+            <li>Podcast w/Team First, then Guests</li>
+            <li>We’ve gotten 3 sales (Essentials and Management or Assessments)</li>
+            <li>We’re seeing 30+ Leads/Qtr</li>
+            <li>We've lit the 'We're hiring' sign</li>
+          </ul>
+        </div>
+        <div class="bg-white text-[#003057] p-4 rounded-xl shadow-md">
+          <p class="text-xl font-bold mb-2">Renewals & Budgets</p>
+          <ul class="list-disc ml-5 text-sm leading-snug">
+            <li>Commitment Monday and Friday of renewal Dashboard</li>
+            <li>We’ve improved the BTN collection and WIIFM for clients</li>
+            <li>Increase LL submissions (WIIFM)</li>
+            <li>Improve better proposals renewal template</li>
+            <li>“No more Mr. Nice guy” Have plan for adding people and being paid</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Countdown Timers -->
+    <section>
+      <h2 class="text-3xl font-semibold mb-4 text-yellow-400 flex items-center">
+        Upcoming Renewals
+        <span id="settings-gear" class="ml-2 cursor-pointer select-none">⚙️</span>
+      </h2>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4" id="timers"></div>
+    </section>
+
+  </div>
+
+  <!-- Settings modal for editing countdown items -->
+  <div id="settings-modal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50">
+    <div class="bg-white text-[#003057] p-6 rounded-lg max-w-lg w-full">
+      <h3 class="text-2xl font-bold mb-4">Edit Countdown Items</h3>
+      <div id="event-list" class="space-y-2 max-h-80 overflow-y-auto"></div>
+      <div class="flex justify-between mt-4">
+        <button id="add-event" class="bg-blue-600 text-white py-1 px-2 rounded">Add Event</button>
+        <div>
+          <button id="save-events" class="bg-green-600 text-white py-1 px-3 rounded mr-2">Save</button>
+          <button id="cancel-settings" class="bg-gray-400 text-white py-1 px-3 rounded">Cancel</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script>
+    // Fallback data in case JSON files are unavailable
+    const fallbackEvents = [
+      { name: "Altium", date: "2025-10-31" },
+      { name: "Zeta", date: "2025-12-31" },
+      { name: "HH", date: "2025-12-31" },
+      { name: "Camfil", date: "2025-12-31" },
+      { name: "2026 Calendar", date: "2025-10-31" },
+      { name: "IPA", date: "2025-12-31" },
+      { name: "Northwest", date: "2025-12-31" },
+      { name: "Kimley", date: "2026-01-31" },
+      { name: "Cars", date: "2026-04-01" },
+      { name: "GBG", date: "2026-06-01" },
+      { name: "Merchology", date: "2025-12-31" },
+      { name: "TradeSchool", date: "2026-02-01" },
+      { name: "MRP", date: "2026-02-02" },
+      { name: "Dornier", date: "2026-04-01" }
+    ];
+    const fallbackQuotes = [
+      "Do the behavior.",
+      "Protect the brand.",
+      "Be a product of the product.",
+      "Don’t get creative.",
+      "No drama."
+    ];
+
+    // Global variables for events and quotes, editable through settings
+    let events = [];
+    let quotes = [];
+
+    /**
+     * Render the countdown tiles based on the current events array.
+     * Sorts events by date and then creates tiles for each item.
+     */
+    function renderTimers() {
+      // Sort events by date
+      events.sort((a, b) => new Date(a.date) - new Date(b.date));
+      const timersDiv = document.getElementById("timers");
+      timersDiv.innerHTML = "";
+      events.forEach((event, index) => {
+        const div = document.createElement("div");
+        div.className =
+          "bg-white text-[#003057] p-4 rounded shadow-md flex justify-between items-center text-sm md:text-base";
+        div.innerHTML =
+          '<span class="font-semibold">' +
+          event.name +
+          "</span>" +
+          '<span id="timer-' +
+          index +
+          '" class="countdown text-blue-600"></span>';
+        timersDiv.appendChild(div);
+      });
+    }
+
+    /**
+     * Update the countdown numbers for each timer every day.
+     */
+    function updateTimers() {
+      const now = new Date();
+      const todayUTC = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate()));
+      events.forEach((event, index) => {
+        const el = document.getElementById("timer-" + index);
+        if (!el) return;
+        const parts = event.date.split("-");
+        const targetUTC = new Date(
+          Date.UTC(parseInt(parts[0]), parseInt(parts[1]) - 1, parseInt(parts[2]))
+        );
+        const diff = targetUTC - todayUTC;
+        const days = Math.max(0, Math.floor(diff / (1000 * 60 * 60 * 24)));
+        el.textContent = days + " day" + (days !== 1 ? "s" : "") + " left";
+        el.style.color = days <= 90 ? "#dc2626" : "#2563eb";
+      });
+    }
+
+    /**
+     * Update the rotating quote. Called every 5 seconds.
+     */
+    function startQuoteRotation() {
+      const quoteDiv = document.getElementById("quote");
+      let quoteIndex = 0;
+      function updateQuote() {
+        if (!Array.isArray(quotes) || quotes.length === 0) return;
+        quoteDiv.textContent = quotes[quoteIndex];
+        quoteIndex = (quoteIndex + 1) % quotes.length;
+      }
+      updateQuote();
+      setInterval(updateQuote, 5000);
+    }
+
+    /**
+     * Compute the end date of the current quarter based on the provided date.
+     * Quarter ends are: 3/31, 6/30, 9/30, 12/31.
+     */
+    function getNextQuarterEnd(date) {
+      const year = date.getFullYear();
+      const month = date.getMonth() + 1; // 1-12
+      if (month <= 3) return new Date(year, 2, 31); // March 31
+      if (month <= 6) return new Date(year, 5, 30); // June 30
+      if (month <= 9) return new Date(year, 8, 30); // September 30
+      return new Date(year, 11, 31); // December 31
+    }
+
+    /**
+     * Update the quarter countdown displayed under the Sandler logo.
+     */
+    function updateQuarterCountdown() {
+      const now = new Date();
+      const quarterEnd = getNextQuarterEnd(now);
+      const todayUTC = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate()));
+      const targetUTC = new Date(
+        Date.UTC(quarterEnd.getFullYear(), quarterEnd.getMonth(), quarterEnd.getDate())
+      );
+      const diff = targetUTC - todayUTC;
+      const days = Math.max(0, Math.floor(diff / (1000 * 60 * 60 * 24)));
+      const qcDiv = document.getElementById("quarter-countdown");
+      if (qcDiv) {
+        qcDiv.textContent =
+          days + " day" + (days !== 1 ? "s" : "") + " until quarter end";
+      }
+    }
+
+    /**
+     * Render the list of events in the settings modal for editing.
+     */
+    function renderEventList() {
+      const listDiv = document.getElementById("event-list");
+      listDiv.innerHTML = "";
+      events.forEach((event, index) => {
+        const row = document.createElement("div");
+        row.className = "flex space-x-2 items-center";
+        row.innerHTML =
+          '<input type="text" value="' +
+          event.name +
+          '" class="border p-1 flex-1 bg-gray-100 rounded" />' +
+          '<input type="date" value="' +
+          event.date +
+          '" class="border p-1 bg-gray-100 rounded" />' +
+          '<button class="bg-red-500 text-white px-2 py-1 rounded remove-event" data-index="' +
+          index +
+          '">Remove</button>';
+        listDiv.appendChild(row);
+      });
+    }
+
+    /**
+     * Show the settings modal.
+     */
+    function openSettings() {
+      renderEventList();
+      document.getElementById("settings-modal").classList.remove("hidden");
+    }
+
+    /**
+     * Close the settings modal without saving changes.
+     */
+    function closeSettings() {
+      document.getElementById("settings-modal").classList.add("hidden");
+    }
+
+    /**
+     * Add a new blank event row in the settings modal.
+     */
+    function addEventRow() {
+      events.push({ name: "New Event", date: new Date().toISOString().split("T")[0] });
+      renderEventList();
+    }
+
+    /**
+     * Save changes from the settings modal to the events array and update timers.
+     */
+    function saveEvents() {
+      const listDiv = document.getElementById("event-list");
+      const rows = listDiv.querySelectorAll("div.flex");
+      const updated = [];
+      rows.forEach((row) => {
+        const inputs = row.querySelectorAll("input");
+        const name = inputs[0].value.trim();
+        const date = inputs[1].value;
+        if (name && date) {
+          updated.push({ name, date });
+        }
+      });
+      events = updated;
+      renderTimers();
+      updateTimers();
+      closeSettings();
+    }
+
+    /**
+     * Initialize event listeners for settings gear and modal controls.
+     */
+    function initSettingsControls() {
+      const gear = document.getElementById("settings-gear");
+      if (gear) gear.addEventListener("click", openSettings);
+      document.getElementById("cancel-settings").addEventListener("click", closeSettings);
+      document.getElementById("add-event").addEventListener("click", addEventRow);
+      document.getElementById("save-events").addEventListener("click", saveEvents);
+      document.getElementById("event-list").addEventListener("click", (e) => {
+        if (e.target.classList.contains("remove-event")) {
+          const idx = parseInt(e.target.getAttribute("data-index"));
+          if (!isNaN(idx)) {
+            events.splice(idx, 1);
+            renderEventList();
+          }
+        }
+      });
+    }
+
+    /**
+     * Load events and quotes from JSON or fallback, then render initial UI.
+     */
+    async function loadData() {
+      events = fallbackEvents;
+      quotes = fallbackQuotes;
+      try {
+        const eventsRes = await fetch("data/events.json");
+        if (eventsRes.ok) {
+          events = await eventsRes.json();
+        }
+      } catch (e) {
+        console.warn("Could not load events.json, using fallback events.");
+      }
+      try {
+        const quotesRes = await fetch("data/quotes.json");
+        if (quotesRes.ok) {
+          quotes = await quotesRes.json();
+        }
+      } catch (e) {
+        console.warn("Could not load quotes.json, using fallback quotes.");
+      }
+      renderTimers();
+      updateTimers();
+      setInterval(updateTimers, 86400000);
+      startQuoteRotation();
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+      loadData();
+      updateQuarterCountdown();
+      setInterval(updateQuarterCountdown, 86400000);
+      initSettingsControls();
+    });
+  </script>
+</body>
+</html>
