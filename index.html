@@ -31,9 +31,9 @@
     <h2 class="text-2xl font-bold text-yellow-400 mb-4">Strategy to Scale to $2M/Trimester (Mt. Washington)</h2>
     <div class="grid grid-cols-1 md:grid-cols-5 gap-4">
       <div class="bg-white text-[#003057] p-6 rounded-2xl shadow-lg min-h-[200px]"><h3 class="font-bold">Retain & Expand Largest Check</h3><ul class="list-disc pl-5 space-y-1"><li>We Drive the bus</li><li>Quantify Value w/Tangible Success</li><li>Have Fun – Show we care!</li></ul></div>
-      <div class="bg-white text-[#003057] p-6 rounded-2xl shadow-lg min-h-[200px]"><h3 class="font-bold">Attract New Largest Check Accounts</h3><ul class="list-disc pl-5 space-y-1"><li>Track Alumni</li><li>WATN – Search for “job changes”</li><li>Maintain awareness by bringing them value</li></ul></div>
+      <div class="bg-white text-[#003057] p-6 rounded-2xl shadow-lg min-h-[200px]"><h3 class="font-bold">Attract New Largest Check Accounts</h3><ul class="list-disc pl-5 space-y-1"><li>Track Alumni</li><li>WATN – Search for "job changes"</li><li>Maintain awareness by bringing them value</li></ul></div>
       <div class="bg-white text-[#003057] p-6 rounded-2xl shadow-lg min-h-[200px]"><h3 class="font-bold">Scale Thru Acquisition</h3><ul class="list-disc pl-5 space-y-1"><li>Merge existing franchises w/ICP</li><li>Leverage our people and processes</li><li>Elevate their capabilities</li></ul></div>
-      <div class="bg-white text-[#003057] p-6 rounded-2xl shadow-lg min-h-[200px]"><h3 class="font-bold">Scale By Adding & Developing People</h3><ul class="list-disc pl-5 space-y-1"><li>Grow our team’s capabilities</li><li>We never stop recruiting</li><li>Mindset that OK to post</li></ul></div>
+      <div class="bg-white text-[#003057] p-6 rounded-2xl shadow-lg min-h-[200px]"><h3 class="font-bold">Scale By Adding & Developing People</h3><ul class="list-disc pl-5 space-y-1"><li>Grow our team's capabilities</li><li>We never stop recruiting</li><li>Mindset that OK to post</li></ul></div>
       <div class="bg-white text-[#003057] p-6 rounded-2xl shadow-lg min-h-[200px]"><h3 class="font-bold">Always Optimize Our Time</h3><ul class="list-disc pl-5 space-y-1"><li>Optimize for Leverage Index & LC</li><li>Leverage skills and joy</li><li>Partner with outside SMEs</li></ul></div>
     </div>
   </section>
@@ -48,35 +48,52 @@
     </div>
   </section>
 
-  <!-- Countdown to Renewals (original) -->
+  <!-- Countdown to Renewals -->
   <section>
     <h2 class="text-3xl font-semibold mb-4 text-yellow-400 flex items-center">
       Upcoming Renewals
-      <span id="settings-gear" class="ml-2 cursor-pointer select-none">⚙️</span>
+      <span id="settings-gear" class="ml-2 cursor-pointer select-none hover:scale-110 transition-transform">⚙️</span>
     </h2>
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4" id="timers"></div>
   </section>
 
   <!-- Settings Modal -->
   <div id="settings-modal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50">
-    <div class="bg-white text-[#003057] p-6 rounded-lg max-w-lg w-full">
+    <div class="bg-white text-[#003057] p-6 rounded-lg max-w-lg w-full mx-4">
       <h3 class="text-2xl font-bold mb-4">Edit Countdown Items</h3>
       <div id="event-list" class="space-y-2 max-h-80 overflow-y-auto"></div>
       <div class="flex justify-between mt-4">
-        <button id="add-event" class="bg-blue-600 text-white py-1 px-2 rounded">Add Event</button>
+        <button id="add-event" class="bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded transition-colors">Add Event</button>
         <div>
-          <button id="save-events" class="bg-green-600 text-white py-1 px-3 rounded mr-2">Save</button>
-          <button id="cancel-settings" class="bg-gray-400 text-white py-1 px-3 rounded">Cancel</button>
+          <button id="save-events" class="bg-green-600 hover:bg-green-700 text-white py-2 px-4 rounded mr-2 transition-colors">Save</button>
+          <button id="cancel-settings" class="bg-gray-400 hover:bg-gray-500 text-white py-2 px-4 rounded transition-colors">Cancel</button>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- Scripts -->
-  <script src="rocks.js"></script>
   <script>
-    // Fallback events (original list from perfect version)
-    const fallbackEvents = [
+    // Default rocks data (fallback if rocks.js doesn't exist)
+    const rocks = {
+      pipeline: [
+        "Strengthen existing pipeline",
+        "Add 3 new qualified prospects",
+        "Close 2 major deals"
+      ],
+      leads: [
+        "Generate 50 new leads",
+        "Qualify 20 prospects",
+        "Schedule 15 discovery calls"
+      ],
+      renewals: [
+        "Prepare renewal presentations",
+        "Schedule renewal meetings",
+        "Finalize 2026 budgets"
+      ]
+    };
+
+    // Default events
+    const defaultEvents = [
       { name: "Altium", date: "2025-10-31" },
       { name: "Zeta", date: "2025-12-31" },
       { name: "HH", date: "2025-12-31" },
@@ -94,64 +111,139 @@
     ];
 
     let events = [];
+    let tempEvents = []; // Temporary array for modal editing
+
+    // Load events from localStorage or use defaults
+    function loadEvents() {
+      const saved = localStorage.getItem('renewalEvents');
+      if (saved) {
+        try {
+          events = JSON.parse(saved);
+        } catch (e) {
+          console.warn('Error loading saved events, using defaults:', e);
+          events = [...defaultEvents];
+        }
+      } else {
+        events = [...defaultEvents];
+      }
+    }
+
+    // Save events to localStorage
+    function saveEventsToStorage() {
+      try {
+        localStorage.setItem('renewalEvents', JSON.stringify(events));
+      } catch (e) {
+        console.warn('Error saving events:', e);
+      }
+    }
 
     function renderTimers() {
+      // Sort events by date
       events.sort((a, b) => new Date(a.date) - new Date(b.date));
+      
       const timersDiv = document.getElementById("timers");
       timersDiv.innerHTML = "";
+      
       events.forEach((event, index) => {
         const div = document.createElement("div");
         div.className = "bg-white text-[#003057] p-4 rounded shadow-md flex justify-between items-center text-sm md:text-base";
         div.innerHTML = `
           <span class="font-semibold">${event.name}</span>
-          <span id="timer-${index}" class="countdown text-blue-600"></span>
+          <span id="timer-${index}" class="countdown text-blue-600 font-medium"></span>
         `;
         timersDiv.appendChild(div);
       });
+      
+      updateTimers();
     }
 
     function updateTimers() {
       const now = new Date();
       const todayUTC = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate()));
+      
       events.forEach((event, index) => {
         const el = document.getElementById("timer-" + index);
         if (!el) return;
+        
         const targetUTC = new Date(event.date + "T00:00:00Z");
         const diff = targetUTC - todayUTC;
         const days = Math.max(0, Math.floor(diff / (1000 * 60 * 60 * 24)));
+        
         el.textContent = days + " day" + (days !== 1 ? "s" : "") + " left";
-        el.style.color = days <= 90 ? "#dc2626" : "#2563eb";
+        
+        // Color coding: red if 90 days or less, blue otherwise
+        if (days <= 90) {
+          el.style.color = "#dc2626";
+          el.classList.add("font-bold");
+        } else {
+          el.style.color = "#2563eb";
+          el.classList.remove("font-bold");
+        }
       });
     }
 
     function renderEventList() {
       const listDiv = document.getElementById("event-list");
       listDiv.innerHTML = "";
-      events.forEach((event, index) => {
+      
+      tempEvents.forEach((event, index) => {
         const row = document.createElement("div");
-        row.className = "flex space-x-2 items-center";
+        row.className = "flex space-x-2 items-center mb-2";
         row.innerHTML = `
-          <input type="text" value="${event.name}" class="border p-1 flex-1 bg-gray-100 rounded" />
-          <input type="date" value="${event.date}" class="border p-1 bg-gray-100 rounded" />
-          <button class="bg-red-500 text-white px-2 py-1 rounded remove-event" data-index="${index}">Remove</button>
+          <input type="text" value="${event.name}" class="border p-2 flex-1 bg-gray-100 rounded event-name" data-index="${index}" />
+          <input type="date" value="${event.date}" class="border p-2 bg-gray-100 rounded event-date" data-index="${index}" />
+          <button class="bg-red-500 hover:bg-red-600 text-white px-3 py-2 rounded remove-event transition-colors" data-index="${index}">Remove</button>
         `;
         listDiv.appendChild(row);
       });
     }
 
-    function openSettings() { renderEventList(); document.getElementById("settings-modal").classList.remove("hidden"); }
-    function closeSettings() { document.getElementById("settings-modal").classList.add("hidden"); }
-    function addEventRow() { events.push({ name: "New Event", date: new Date().toISOString().split("T")[0] }); renderEventList(); }
+    function openSettings() {
+      // Copy current events to temporary array for editing
+      tempEvents = events.map(event => ({ ...event }));
+      renderEventList();
+      document.getElementById("settings-modal").classList.remove("hidden");
+      document.getElementById("settings-modal").classList.add("flex");
+    }
+
+    function closeSettings() {
+      document.getElementById("settings-modal").classList.add("hidden");
+      document.getElementById("settings-modal").classList.remove("flex");
+      tempEvents = [];
+    }
+
+    function addEventRow() {
+      const today = new Date().toISOString().split("T")[0];
+      tempEvents.push({ name: "New Event", date: today });
+      renderEventList();
+    }
+
     function saveEvents() {
-      const rows = document.querySelectorAll("#event-list div.flex");
-      const updated = [];
-      rows.forEach(row => {
-        const inputs = row.querySelectorAll("input");
-        const name = inputs[0].value.trim();
-        const date = inputs[1].value;
-        if (name && date) updated.push({ name, date });
-      });
-      events = updated; renderTimers(); updateTimers(); closeSettings();
+      // Update tempEvents with current input values
+      const nameInputs = document.querySelectorAll('.event-name');
+      const dateInputs = document.querySelectorAll('.event-date');
+      
+      tempEvents = [];
+      for (let i = 0; i < nameInputs.length; i++) {
+        const name = nameInputs[i].value.trim();
+        const date = dateInputs[i].value;
+        
+        if (name && date) {
+          tempEvents.push({ name, date });
+        }
+      }
+      
+      // Apply changes to main events array
+      events = [...tempEvents];
+      
+      // Save to localStorage
+      saveEventsToStorage();
+      
+      // Re-render timers with new data
+      renderTimers();
+      
+      // Close modal
+      closeSettings();
     }
 
     function initSettingsControls() {
@@ -159,34 +251,131 @@
       document.getElementById("cancel-settings").addEventListener("click", closeSettings);
       document.getElementById("add-event").addEventListener("click", addEventRow);
       document.getElementById("save-events").addEventListener("click", saveEvents);
+      
+      // Handle remove event clicks
       document.getElementById("event-list").addEventListener("click", (e) => {
         if (e.target.classList.contains("remove-event")) {
           const idx = parseInt(e.target.getAttribute("data-index"));
-          if (!isNaN(idx)) { events.splice(idx, 1); renderEventList(); }
+          if (!isNaN(idx) && idx >= 0 && idx < tempEvents.length) {
+            tempEvents.splice(idx, 1);
+            renderEventList();
+          }
+        }
+      });
+
+      // Handle input changes
+      document.getElementById("event-list").addEventListener("input", (e) => {
+        if (e.target.classList.contains("event-name") || e.target.classList.contains("event-date")) {
+          const idx = parseInt(e.target.getAttribute("data-index"));
+          if (!isNaN(idx) && idx >= 0 && idx < tempEvents.length) {
+            if (e.target.classList.contains("event-name")) {
+              tempEvents[idx].name = e.target.value;
+            } else if (e.target.classList.contains("event-date")) {
+              tempEvents[idx].date = e.target.value;
+            }
+          }
+        }
+      });
+
+      // Close modal when clicking outside
+      document.getElementById("settings-modal").addEventListener("click", (e) => {
+        if (e.target.id === "settings-modal") {
+          closeSettings();
         }
       });
     }
 
-    // Rocks
+    // Rocks rendering
     function renderRocks() {
       const pipelineList = document.getElementById("pipeline-list");
       const leadsList = document.getElementById("leads-list");
       const renewalsList = document.getElementById("renewals-list");
-      if (rocks.pipeline) rocks.pipeline.forEach(i => { let li=document.createElement("li"); li.textContent=i; pipelineList.appendChild(li); });
-      if (rocks.leads) rocks.leads.forEach(i => { let li=document.createElement("li"); li.textContent=i; leadsList.appendChild(li); });
-      if (rocks.renewals) rocks.renewals.forEach(i => { let li=document.createElement("li"); li.textContent=i; renewalsList.appendChild(li); });
+      
+      if (rocks.pipeline) {
+        rocks.pipeline.forEach(item => {
+          const li = document.createElement("li");
+          li.textContent = item;
+          pipelineList.appendChild(li);
+        });
+      }
+      
+      if (rocks.leads) {
+        rocks.leads.forEach(item => {
+          const li = document.createElement("li");
+          li.textContent = item;
+          leadsList.appendChild(li);
+        });
+      }
+      
+      if (rocks.renewals) {
+        rocks.renewals.forEach(item => {
+          const li = document.createElement("li");
+          li.textContent = item;
+          renewalsList.appendChild(li);
+        });
+      }
     }
 
-    // Rules
-    const rules=["Protect the brand.","Be a product of the product.","Do the behavior.","Don’t get creative.","No drama."];
-    let currentRule=0; function rotateRules(){const q=document.getElementById("quote"); if(q){q.textContent=rules[currentRule]; currentRule=(currentRule+1)%rules.length;}}
-    setInterval(rotateRules,5000);
+    // Rules rotation
+    const rules = [
+      "Protect the brand.",
+      "Be a product of the product.",
+      "Do the behavior.",
+      "Don't get creative.",
+      "No drama."
+    ];
+    
+    let currentRule = 0;
+    
+    function rotateRules() {
+      const quoteElement = document.getElementById("quote");
+      if (quoteElement) {
+        quoteElement.textContent = rules[currentRule];
+        currentRule = (currentRule + 1) % rules.length;
+      }
+    }
 
     // Quarter countdown
-    function getNextQuarterEnd(d){const y=d.getFullYear();const q=[new Date(y,2,31),new Date(y,5,30),new Date(y,8,30),new Date(y,11,31)];return q.find(x=>x>=d)||new Date(y+1,2,31);}
-    function updateQuarterCountdown(){const now=new Date();const qe=getNextQuarterEnd(now);const todayUTC=new Date(Date.UTC(now.getUTCFullYear(),now.getUTCMonth(),now.getUTCDate()));const targetUTC=new Date(Date.UTC(qe.getFullYear(),qe.getMonth(),qe.getDate()));const diff=targetUTC-todayUTC;const days=Math.max(0,Math.floor(diff/(1000*60*60*24)));const qc=document.getElementById("quarter-countdown");if(qc){qc.textContent=days+" day"+(days!==1?"s":"")+" until quarter end";}}
+    function getNextQuarterEnd(date) {
+      const year = date.getFullYear();
+      const quarters = [
+        new Date(year, 2, 31),  // Q1 end (March 31)
+        new Date(year, 5, 30),  // Q2 end (June 30)
+        new Date(year, 8, 30),  // Q3 end (September 30)
+        new Date(year, 11, 31)  // Q4 end (December 31)
+      ];
+      
+      return quarters.find(q => q >= date) || new Date(year + 1, 2, 31);
+    }
 
-    document.addEventListener("DOMContentLoaded",()=>{events=fallbackEvents;renderRocks();renderTimers();updateTimers();setInterval(updateTimers,86400000);initSettingsControls();rotateRules();updateQuarterCountdown();});
+    function updateQuarterCountdown() {
+      const now = new Date();
+      const quarterEnd = getNextQuarterEnd(now);
+      const todayUTC = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate()));
+      const targetUTC = new Date(Date.UTC(quarterEnd.getFullYear(), quarterEnd.getMonth(), quarterEnd.getDate()));
+      const diff = targetUTC - todayUTC;
+      const days = Math.max(0, Math.floor(diff / (1000 * 60 * 60 * 24)));
+      
+      const countdownElement = document.getElementById("quarter-countdown");
+      if (countdownElement) {
+        countdownElement.textContent = days + " day" + (days !== 1 ? "s" : "") + " until quarter end";
+      }
+    }
+
+    // Initialize everything when DOM is loaded
+    document.addEventListener("DOMContentLoaded", () => {
+      loadEvents();
+      renderRocks();
+      renderTimers();
+      initSettingsControls();
+      rotateRules();
+      updateQuarterCountdown();
+      
+      // Set up intervals
+      setInterval(updateTimers, 60000); // Update every minute for more responsive updates
+      setInterval(rotateRules, 5000);
+      setInterval(updateQuarterCountdown, 3600000); // Update every hour
+    });
   </script>
 </body>
 </html>
