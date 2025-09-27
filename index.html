@@ -52,50 +52,34 @@
   <section>
     <h2 class="text-3xl font-semibold mb-4 text-yellow-400 flex items-center">
       Upcoming Renewals
-      <span id="settings-gear" class="ml-2 cursor-pointer select-none hover:scale-110 transition-transform">⚙️</span>
+      <span id="info-icon" class="ml-2 cursor-pointer select-none hover:scale-110 transition-transform" title="Click to see Google Sheet link">ℹ️</span>
+      <span id="sync-status" class="ml-2 text-sm"></span>
     </h2>
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4" id="timers"></div>
   </section>
 
-  <!-- Settings Modal -->
-  <div id="settings-modal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50">
-    <div class="bg-white text-[#003057] p-6 rounded-lg max-w-2xl w-full mx-4">
-      <h3 class="text-2xl font-bold mb-4">Edit Renewal Dates</h3>
-      
-      <div class="bg-blue-50 p-3 rounded-lg mb-4 text-sm">
-        <strong>How it works:</strong> Edit dates below, then copy the generated JSON to update your GitHub renewals.json file. Changes will sync across all computers when they refresh the page.
-      </div>
-      
-      <div id="event-list" class="space-y-2 max-h-60 overflow-y-auto mb-4"></div>
-      
-      <div class="flex justify-between mt-4">
-        <button id="add-event" class="bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded transition-colors">Add Event</button>
-        <div>
-          <button id="export-json" class="bg-purple-600 hover:bg-purple-700 text-white py-2 px-4 rounded mr-2 transition-colors">Generate JSON</button>
-          <button id="cancel-settings" class="bg-gray-400 hover:bg-gray-500 text-white py-2 px-4 rounded transition-colors">Cancel</button>
+  <!-- Info Modal -->
+  <div id="info-modal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50">
+    <div class="bg-white text-[#003057] p-6 rounded-lg max-w-lg w-full mx-4">
+      <h3 class="text-2xl font-bold mb-4">How to Update Renewal Dates</h3>
+      <div class="space-y-4 text-sm">
+        <div class="bg-green-50 p-4 rounded-lg">
+          <h4 class="font-bold mb-2">Easy Method: Edit Google Sheet</h4>
+          <p class="mb-2">Click the link below to edit renewal dates in Google Sheets:</p>
+          <a id="sheet-link" href="#" target="_blank" class="text-blue-600 underline hover:text-blue-800">Open Renewal Dates Spreadsheet</a>
+          <p class="mt-2 text-xs text-gray-600">Changes appear on all computers within minutes!</p>
         </div>
-      </div>
-      
-      <!-- JSON Export Section -->
-      <div id="json-export" class="hidden mt-4 p-4 bg-gray-50 rounded-lg">
-        <h4 class="font-bold mb-2">Copy this JSON to your renewals.json file in GitHub:</h4>
-        <textarea id="json-output" class="w-full h-40 p-3 border rounded font-mono text-sm bg-white" readonly></textarea>
-        <div class="flex justify-between mt-2">
-          <button id="copy-json" class="bg-green-600 hover:bg-green-700 text-white py-1 px-3 rounded text-sm transition-colors">Copy to Clipboard</button>
-          <button id="close-export" class="bg-gray-400 hover:bg-gray-500 text-white py-1 px-3 rounded text-sm transition-colors">Close</button>
-        </div>
-        <div id="copy-status" class="mt-2 text-sm"></div>
-        <div class="mt-3 p-3 bg-yellow-50 rounded text-sm">
-          <strong>Next steps:</strong>
-          <ol class="list-decimal list-inside mt-1 space-y-1">
-            <li>Go to your GitHub repository</li>
-            <li>Click on renewals.json</li>
-            <li>Click the pencil icon to edit</li>
-            <li>Replace all content with the copied JSON</li>
-            <li>Commit the changes</li>
-            <li>Refresh this page to see updates!</li>
+        <div class="bg-blue-50 p-4 rounded-lg">
+          <h4 class="font-bold mb-2">Instructions:</h4>
+          <ol class="list-decimal list-inside space-y-1">
+            <li>Click the link above to open Google Sheets</li>
+            <li>Edit dates directly in the spreadsheet</li>
+            <li>Refresh this dashboard to see changes</li>
           </ol>
         </div>
+      </div>
+      <div class="flex justify-end mt-6">
+        <button id="close-info" class="bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded transition-colors">Got it!</button>
       </div>
     </div>
   </div>
@@ -103,21 +87,51 @@
   <!-- Scripts -->
   <script src="rocks.js"></script>
   <script>
-    let events = [];
-    let tempEvents = [];
+    // Google Sheets Configuration
+    // Replace 'YOUR_SHEET_ID' with your actual Google Sheets ID
+    const GOOGLE_SHEET_ID = '1X7n-pOfY0B9WWIuAIPVEBVlZk1wrgW6xUMRwC-otsJQ';
+    const GOOGLE_SHEET_URL = `https://docs.google.com/spreadsheets/d/${GOOGLE_SHEET_ID}/gviz/tq?tqx=out:csv&sheet=Sheet1`;
+    const GOOGLE_SHEET_EDIT_URL = `https://docs.google.com/spreadsheets/d/${GOOGLE_SHEET_ID}/edit`;
 
-    // Load renewal events from renewals.json
+    let events = [];
+
+    // Load renewal events from Google Sheets
     async function loadRenewalEvents() {
+      const syncStatus = document.getElementById('sync-status');
+      
       try {
-        const response = await fetch('renewals.json?' + Date.now());
+        syncStatus.innerHTML = '<span class="text-blue-400 text-xs">🔄 Loading...</span>';
+        
+        const response = await fetch(GOOGLE_SHEET_URL);
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
-        const renewalsData = await response.json();
-        events = renewalsData.events || [];
-        console.log('Loaded renewal events from renewals.json:', events.length, 'events');
+        
+        const csvText = await response.text();
+        const rows = csvText.split('\n').slice(1); // Skip header row
+        
+        events = [];
+        rows.forEach(row => {
+          if (row.trim()) {
+            const columns = row.split(',');
+            if (columns.length >= 2) {
+              const name = columns[0].replace(/"/g, '').trim();
+              const date = columns[1].replace(/"/g, '').trim();
+              if (name && date) {
+                events.push({ name, date });
+              }
+            }
+          }
+        });
+        
+        console.log('Loaded renewal events from Google Sheets:', events.length, 'events');
+        syncStatus.innerHTML = '<span class="text-green-400 text-xs">✅ Synced</span>';
+        
       } catch (error) {
-        console.warn('Could not load renewals.json, using fallback data:', error);
+        console.warn('Could not load from Google Sheets, using fallback data:', error);
+        syncStatus.innerHTML = '<span class="text-red-400 text-xs">❌ Error</span>';
+        
+        // Fallback data
         events = [
           { name: "Altium", date: "2025-10-31" },
           { name: "Zeta", date: "2025-12-31" },
@@ -180,117 +194,30 @@
       });
     }
 
-    function renderEventList() {
-      const listDiv = document.getElementById("event-list");
-      listDiv.innerHTML = "";
-      
-      tempEvents.forEach((event, index) => {
-        const row = document.createElement("div");
-        row.className = "flex space-x-2 items-center mb-2";
-        row.innerHTML = `
-          <input type="text" value="${event.name}" class="border p-2 flex-1 bg-gray-100 rounded event-name" data-index="${index}" />
-          <input type="date" value="${event.date}" class="border p-2 bg-gray-100 rounded event-date" data-index="${index}" />
-          <button class="bg-red-500 hover:bg-red-600 text-white px-3 py-2 rounded remove-event transition-colors" data-index="${index}">Remove</button>
-        `;
-        listDiv.appendChild(row);
-      });
-    }
+    function initInfoModal() {
+      const infoIcon = document.getElementById("info-icon");
+      const infoModal = document.getElementById("info-modal");
+      const closeInfo = document.getElementById("close-info");
+      const sheetLink = document.getElementById("sheet-link");
 
-    function openSettings() {
-      tempEvents = events.map(event => ({ ...event }));
-      renderEventList();
-      document.getElementById("settings-modal").classList.remove("hidden");
-      document.getElementById("settings-modal").classList.add("flex");
-      document.getElementById("json-export").classList.add("hidden");
-    }
+      // Set the Google Sheets edit URL
+      sheetLink.href = GOOGLE_SHEET_EDIT_URL;
 
-    function closeSettings() {
-      document.getElementById("settings-modal").classList.add("hidden");
-      document.getElementById("settings-modal").classList.remove("flex");
-      tempEvents = [];
-    }
-
-    function addEventRow() {
-      const today = new Date().toISOString().split("T")[0];
-      tempEvents.push({ name: "New Event", date: today });
-      renderEventList();
-    }
-
-    function exportJSON() {
-      // Update tempEvents with current input values
-      const nameInputs = document.querySelectorAll('.event-name');
-      const dateInputs = document.querySelectorAll('.event-date');
-      
-      tempEvents = [];
-      for (let i = 0; i < nameInputs.length; i++) {
-        const name = nameInputs[i].value.trim();
-        const date = dateInputs[i].value;
-        
-        if (name && date) {
-          tempEvents.push({ name, date });
-        }
-      }
-
-      const jsonContent = {
-        events: tempEvents
-      };
-
-      const jsonString = JSON.stringify(jsonContent, null, 2);
-      document.getElementById("json-output").value = jsonString;
-      document.getElementById("json-export").classList.remove("hidden");
-    }
-
-    function copyToClipboard() {
-      const textarea = document.getElementById("json-output");
-      textarea.select();
-      document.execCommand('copy');
-      
-      const statusEl = document.getElementById("copy-status");
-      statusEl.innerHTML = '<span class="text-green-600">Copied to clipboard! Now paste this into your renewals.json file in GitHub.</span>';
-      
-      setTimeout(() => {
-        statusEl.innerHTML = '';
-      }, 5000);
-    }
-
-    function closeExport() {
-      document.getElementById("json-export").classList.add("hidden");
-    }
-
-    function initSettingsControls() {
-      document.getElementById("settings-gear").addEventListener("click", openSettings);
-      document.getElementById("cancel-settings").addEventListener("click", closeSettings);
-      document.getElementById("add-event").addEventListener("click", addEventRow);
-      document.getElementById("export-json").addEventListener("click", exportJSON);
-      document.getElementById("copy-json").addEventListener("click", copyToClipboard);
-      document.getElementById("close-export").addEventListener("click", closeExport);
-      
-      document.getElementById("event-list").addEventListener("click", (e) => {
-        if (e.target.classList.contains("remove-event")) {
-          const idx = parseInt(e.target.getAttribute("data-index"));
-          if (!isNaN(idx) && idx >= 0 && idx < tempEvents.length) {
-            tempEvents.splice(idx, 1);
-            renderEventList();
-          }
-        }
+      infoIcon.addEventListener("click", () => {
+        infoModal.classList.remove("hidden");
+        infoModal.classList.add("flex");
       });
 
-      document.getElementById("event-list").addEventListener("input", (e) => {
-        if (e.target.classList.contains("event-name") || e.target.classList.contains("event-date")) {
-          const idx = parseInt(e.target.getAttribute("data-index"));
-          if (!isNaN(idx) && idx >= 0 && idx < tempEvents.length) {
-            if (e.target.classList.contains("event-name")) {
-              tempEvents[idx].name = e.target.value;
-            } else if (e.target.classList.contains("event-date")) {
-              tempEvents[idx].date = e.target.value;
-            }
-          }
-        }
+      closeInfo.addEventListener("click", () => {
+        infoModal.classList.add("hidden");
+        infoModal.classList.remove("flex");
       });
 
-      document.getElementById("settings-modal").addEventListener("click", (e) => {
-        if (e.target.id === "settings-modal") {
-          closeSettings();
+      // Close modal when clicking outside
+      infoModal.addEventListener("click", (e) => {
+        if (e.target.id === "info-modal") {
+          infoModal.classList.add("hidden");
+          infoModal.classList.remove("flex");
         }
       });
     }
@@ -379,9 +306,15 @@
       await loadRenewalEvents();
       renderRocks();
       renderTimers();
-      initSettingsControls();
+      initInfoModal();
       rotateRules();
       updateQuarterCountdown();
+      
+      // Auto-refresh every 5 minutes to pick up Google Sheets changes
+      setInterval(async () => {
+        await loadRenewalEvents();
+        renderTimers();
+      }, 300000); // 5 minutes
       
       setInterval(updateTimers, 60000);
       setInterval(rotateRules, 5000);
