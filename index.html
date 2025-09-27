@@ -11,7 +11,6 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
     body { font-family: "Poppins", sans-serif; }
-    .loading { opacity: 0.6; pointer-events: none; }
   </style>
 </head>
 <body class="bg-[#003057] text-white p-6 space-y-6">
@@ -54,47 +53,58 @@
     <h2 class="text-3xl font-semibold mb-4 text-yellow-400 flex items-center">
       Upcoming Renewals
       <span id="settings-gear" class="ml-2 cursor-pointer select-none hover:scale-110 transition-transform">⚙️</span>
-      <span id="sync-status" class="ml-2 text-sm"></span>
     </h2>
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4" id="timers"></div>
   </section>
 
   <!-- Settings Modal -->
   <div id="settings-modal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50">
-    <div class="bg-white text-[#003057] p-6 rounded-lg max-w-lg w-full mx-4">
+    <div class="bg-white text-[#003057] p-6 rounded-lg max-w-2xl w-full mx-4">
       <h3 class="text-2xl font-bold mb-4">Edit Renewal Dates</h3>
+      
       <div class="bg-blue-50 p-3 rounded-lg mb-4 text-sm">
-        <strong>🔄 Auto-Sync Enabled:</strong> Changes will be saved to GitHub automatically and sync across all computers!
+        <strong>How it works:</strong> Edit dates below, then copy the generated JSON to update your GitHub renewals.json file. Changes will sync across all computers when they refresh the page.
       </div>
-      <div id="event-list" class="space-y-2 max-h-80 overflow-y-auto"></div>
+      
+      <div id="event-list" class="space-y-2 max-h-60 overflow-y-auto mb-4"></div>
+      
       <div class="flex justify-between mt-4">
         <button id="add-event" class="bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded transition-colors">Add Event</button>
         <div>
-          <button id="save-events" class="bg-green-600 hover:bg-green-700 text-white py-2 px-4 rounded mr-2 transition-colors">
-            <span class="save-text">Save to GitHub</span>
-            <span class="save-loading hidden">Saving...</span>
-          </button>
+          <button id="export-json" class="bg-purple-600 hover:bg-purple-700 text-white py-2 px-4 rounded mr-2 transition-colors">Generate JSON</button>
           <button id="cancel-settings" class="bg-gray-400 hover:bg-gray-500 text-white py-2 px-4 rounded transition-colors">Cancel</button>
         </div>
       </div>
-      <div id="save-status" class="mt-3 text-sm"></div>
+      
+      <!-- JSON Export Section -->
+      <div id="json-export" class="hidden mt-4 p-4 bg-gray-50 rounded-lg">
+        <h4 class="font-bold mb-2">Copy this JSON to your renewals.json file in GitHub:</h4>
+        <textarea id="json-output" class="w-full h-40 p-3 border rounded font-mono text-sm bg-white" readonly></textarea>
+        <div class="flex justify-between mt-2">
+          <button id="copy-json" class="bg-green-600 hover:bg-green-700 text-white py-1 px-3 rounded text-sm transition-colors">Copy to Clipboard</button>
+          <button id="close-export" class="bg-gray-400 hover:bg-gray-500 text-white py-1 px-3 rounded text-sm transition-colors">Close</button>
+        </div>
+        <div id="copy-status" class="mt-2 text-sm"></div>
+        <div class="mt-3 p-3 bg-yellow-50 rounded text-sm">
+          <strong>Next steps:</strong>
+          <ol class="list-decimal list-inside mt-1 space-y-1">
+            <li>Go to your GitHub repository</li>
+            <li>Click on renewals.json</li>
+            <li>Click the pencil icon to edit</li>
+            <li>Replace all content with the copied JSON</li>
+            <li>Commit the changes</li>
+            <li>Refresh this page to see updates!</li>
+          </ol>
+        </div>
+      </div>
     </div>
   </div>
 
   <!-- Scripts -->
   <script src="rocks.js"></script>
   <script>
-    // GitHub Configuration
-    const GITHUB_CONFIG = {
-      token: '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',
-      owner: 'mwm-3',
-      repo: 'dashboard',
-      filePath: 'renewals.json'
-    };
-
     let events = [];
     let tempEvents = [];
-    let fileSha = null;
 
     // Load renewal events from renewals.json
     async function loadRenewalEvents() {
@@ -105,12 +115,9 @@
         }
         const renewalsData = await response.json();
         events = renewalsData.events || [];
-        console.log('✅ Loaded renewal events from renewals.json:', events.length, 'events');
-        
-        await getFileSha();
-        
+        console.log('Loaded renewal events from renewals.json:', events.length, 'events');
       } catch (error) {
-        console.warn('⚠️ Could not load renewals.json, using fallback data:', error);
+        console.warn('Could not load renewals.json, using fallback data:', error);
         events = [
           { name: "Altium", date: "2025-10-31" },
           { name: "Zeta", date: "2025-12-31" },
@@ -127,101 +134,6 @@
           { name: "MRP", date: "2026-02-02" },
           { name: "Dornier", date: "2026-04-01" }
         ];
-      }
-    }
-
-    // Get file SHA from GitHub
-    async function getFileSha() {
-      try {
-        const response = await fetch(`https://api.github.com/repos/${GITHUB_CONFIG.owner}/${GITHUB_CONFIG.repo}/contents/${GITHUB_CONFIG.filePath}`, {
-          headers: {
-            'Authorization': `token ${GITHUB_CONFIG.token}`,
-            'Accept': 'application/vnd.github.v3+json'
-          }
-        });
-        
-        if (response.ok) {
-          const data = await response.json();
-          fileSha = data.sha;
-          console.log('✅ Got file SHA for GitHub updates');
-        } else {
-          console.log('⚠️ File may not exist yet, will create it');
-        }
-      } catch (error) {
-        console.warn('⚠️ Could not get file SHA:', error);
-      }
-    }
-
-    // Update renewals.json in GitHub
-    async function updateGitHubFile(newEvents) {
-      const statusEl = document.getElementById('save-status');
-      const syncStatusEl = document.getElementById('sync-status');
-      const saveButton = document.getElementById('save-events');
-      const saveText = saveButton.querySelector('.save-text');
-      const saveLoading = saveButton.querySelector('.save-loading');
-      
-      try {
-        saveText.classList.add('hidden');
-        saveLoading.classList.remove('hidden');
-        saveButton.disabled = true;
-        statusEl.innerHTML = '<span class="text-blue-600">🔄 Saving to GitHub...</span>';
-        
-        const newContent = {
-          events: newEvents
-        };
-        
-        const contentBase64 = btoa(unescape(encodeURIComponent(JSON.stringify(newContent, null, 2))));
-        
-        const updateData = {
-          message: `Update renewal dates - ${new Date().toISOString().split('T')[0]}`,
-          content: contentBase64
-        };
-
-        // Add SHA if we have it (for updates), omit for new file creation
-        if (fileSha) {
-          updateData.sha = fileSha;
-        }
-        
-        const response = await fetch(`https://api.github.com/repos/${GITHUB_CONFIG.owner}/${GITHUB_CONFIG.repo}/contents/${GITHUB_CONFIG.filePath}`, {
-          method: 'PUT',
-          headers: {
-            'Authorization': `token ${GITHUB_CONFIG.token}`,
-            'Accept': 'application/vnd.github.v3+json',
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify(updateData)
-        });
-        
-        if (response.ok) {
-          const result = await response.json();
-          fileSha = result.content.sha;
-          
-          statusEl.innerHTML = '<span class="text-green-600">✅ Successfully saved to GitHub!</span>';
-          syncStatusEl.innerHTML = '<span class="text-green-400 text-xs">🔄 Synced</span>';
-          
-          events = [...newEvents];
-          
-          setTimeout(() => {
-            renderTimers();
-            statusEl.innerHTML = '';
-          }, 2000);
-          
-          return true;
-        } else {
-          const errorData = await response.text();
-          console.error('GitHub API Error:', response.status, errorData);
-          throw new Error(`GitHub API error: ${response.status}`);
-        }
-        
-      } catch (error) {
-        console.error('Error updating GitHub file:', error);
-        statusEl.innerHTML = '<span class="text-red-600">❌ Error saving to GitHub. Please try again.</span>';
-        syncStatusEl.innerHTML = '<span class="text-red-400 text-xs">❌ Error</span>';
-        return false;
-      } finally {
-        saveText.classList.remove('hidden');
-        saveLoading.classList.add('hidden');
-        saveButton.disabled = false;
       }
     }
 
@@ -289,7 +201,7 @@
       renderEventList();
       document.getElementById("settings-modal").classList.remove("hidden");
       document.getElementById("settings-modal").classList.add("flex");
-      document.getElementById("save-status").innerHTML = '';
+      document.getElementById("json-export").classList.add("hidden");
     }
 
     function closeSettings() {
@@ -304,7 +216,8 @@
       renderEventList();
     }
 
-    async function saveEvents() {
+    function exportJSON() {
+      // Update tempEvents with current input values
       const nameInputs = document.querySelectorAll('.event-name');
       const dateInputs = document.querySelectorAll('.event-date');
       
@@ -317,21 +230,40 @@
           tempEvents.push({ name, date });
         }
       }
+
+      const jsonContent = {
+        events: tempEvents
+      };
+
+      const jsonString = JSON.stringify(jsonContent, null, 2);
+      document.getElementById("json-output").value = jsonString;
+      document.getElementById("json-export").classList.remove("hidden");
+    }
+
+    function copyToClipboard() {
+      const textarea = document.getElementById("json-output");
+      textarea.select();
+      document.execCommand('copy');
       
-      const success = await updateGitHubFile(tempEvents);
+      const statusEl = document.getElementById("copy-status");
+      statusEl.innerHTML = '<span class="text-green-600">Copied to clipboard! Now paste this into your renewals.json file in GitHub.</span>';
       
-      if (success) {
-        setTimeout(() => {
-          closeSettings();
-        }, 2000);
-      }
+      setTimeout(() => {
+        statusEl.innerHTML = '';
+      }, 5000);
+    }
+
+    function closeExport() {
+      document.getElementById("json-export").classList.add("hidden");
     }
 
     function initSettingsControls() {
       document.getElementById("settings-gear").addEventListener("click", openSettings);
       document.getElementById("cancel-settings").addEventListener("click", closeSettings);
       document.getElementById("add-event").addEventListener("click", addEventRow);
-      document.getElementById("save-events").addEventListener("click", saveEvents);
+      document.getElementById("export-json").addEventListener("click", exportJSON);
+      document.getElementById("copy-json").addEventListener("click", copyToClipboard);
+      document.getElementById("close-export").addEventListener("click", closeExport);
       
       document.getElementById("event-list").addEventListener("click", (e) => {
         if (e.target.classList.contains("remove-event")) {
@@ -393,8 +325,6 @@
             renewalsList.appendChild(li);
           });
         }
-      } else {
-        console.warn('⚠️ rocks.js not loaded or rocks object not found');
       }
     }
 
