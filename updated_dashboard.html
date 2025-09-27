@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sales Engine Dashboard</title>
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="icon" href="data:,">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body { font-family: "Poppins", sans-serif; }
+  </style>
+</head>
+<body class="bg-[#003057] text-white p-6 space-y-6">
+
+  <!-- Header -->
+  <section>
+    <div class="bg-white text-[#003057] p-6 rounded-2xl shadow-lg flex flex-col md:flex-row items-center justify-between">
+      <div class="flex-shrink-0">
+        <img src="Sandler Logo NEW 2024 Blue.png" alt="Sandler Logo" class="h-10 md:h-12">
+      </div>
+      <div id="quote" class="flex-1 text-xl md:text-2xl italic text-center px-4" aria-live="polite"></div>
+      <div id="quarter-countdown" class="text-xl md:text-2xl font-bold flex-shrink-0 md:ml-4"></div>
+    </div>
+  </section>
+
+  <!-- Strategy -->
+  <section>
+    <h2 class="text-2xl font-bold text-yellow-400 mb-4">Strategy to Scale to $2M/Trimester (Mt. Washington)</h2>
+    <div class="grid grid-cols-1 md:grid-cols-5 gap-4">
+      <div class="bg-white text-[#003057] p-6 rounded-2xl shadow-lg min-h-[200px]"><h3 class="font-bold">Retain & Expand Largest Check</h3><ul class="list-disc pl-5 space-y-1"><li>We Drive the bus</li><li>Quantify Value w/Tangible Success</li><li>Have Fun – Show we care!</li></ul></div>
+      <div class="bg-white text-[#003057] p-6 rounded-2xl shadow-lg min-h-[200px]"><h3 class="font-bold">Attract New Largest Check Accounts</h3><ul class="list-disc pl-5 space-y-1"><li>Track Alumni</li><li>WATN – Search for "job changes"</li><li>Maintain awareness by bringing them value</li></ul></div>
+      <div class="bg-white text-[#003057] p-6 rounded-2xl shadow-lg min-h-[200px]"><h3 class="font-bold">Scale Thru Acquisition</h3><ul class="list-disc pl-5 space-y-1"><li>Merge existing franchises w/ICP</li><li>Leverage our people and processes</li><li>Elevate their capabilities</li></ul></div>
+      <div class="bg-white text-[#003057] p-6 rounded-2xl shadow-lg min-h-[200px]"><h3 class="font-bold">Scale By Adding & Developing People</h3><ul class="list-disc pl-5 space-y-1"><li>Grow our team's capabilities</li><li>We never stop recruiting</li><li>Mindset that OK to post</li></ul></div>
+      <div class="bg-white text-[#003057] p-6 rounded-2xl shadow-lg min-h-[200px]"><h3 class="font-bold">Always Optimize Our Time</h3><ul class="list-disc pl-5 space-y-1"><li>Optimize for Leverage Index & LC</li><li>Leverage skills and joy</li><li>Partner with outside SMEs</li></ul></div>
+    </div>
+  </section>
+
+  <!-- Rocks -->
+  <section>
+    <h2 class="text-2xl font-bold text-yellow-400 mb-4">25Q4 Rocks</h2>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+      <div class="bg-white text-[#003057] p-6 rounded-2xl shadow-lg min-h-[300px]"><h3 class="font-bold">10X Pipeline 2.0 (JP)</h3><ul id="pipeline-list" class="list-disc pl-5 space-y-1"></ul></div>
+      <div class="bg-white text-[#003057] p-6 rounded-2xl shadow-lg min-h-[300px]"><h3 class="font-bold">10X Leads 3.0 (RC)</h3><ul id="leads-list" class="list-disc pl-5 space-y-1"></ul></div>
+      <div class="bg-white text-[#003057] p-6 rounded-2xl shadow-lg min-h-[300px]"><h3 class="font-bold">Renewals & Budgets</h3><ul id="renewals-list" class="list-disc pl-5 space-y-1"></ul></div>
+    </div>
+  </section>
+
+  <!-- Countdown to Renewals -->
+  <section>
+    <h2 class="text-3xl font-semibold mb-4 text-yellow-400 flex items-center">
+      Upcoming Renewals
+      <span id="info-icon" class="ml-2 cursor-pointer select-none hover:scale-110 transition-transform" title="To update renewal dates, edit renewals.json in GitHub">ℹ️</span>
+    </h2>
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4" id="timers"></div>
+  </section>
+
+  <!-- Info Modal -->
+  <div id="info-modal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50">
+    <div class="bg-white text-[#003057] p-6 rounded-lg max-w-lg w-full mx-4">
+      <h3 class="text-2xl font-bold mb-4">📝 How to Update Renewal Dates</h3>
+      <div class="space-y-4 text-sm">
+        <div class="bg-blue-50 p-4 rounded-lg">
+          <h4 class="font-bold mb-2">Step 1: Go to GitHub</h4>
+          <p>Navigate to your repository and find the <code class="bg-gray-200 px-1 rounded">renewals.json</code> file</p>
+        </div>
+        <div class="bg-green-50 p-4 rounded-lg">
+          <h4 class="font-bold mb-2">Step 2: Edit the File</h4>
+          <p>Click the pencil icon to edit, or copy/paste the updated content</p>
+        </div>
+        <div class="bg-yellow-50 p-4 rounded-lg">
+          <h4 class="font-bold mb-2">Step 3: Update Dates</h4>
+          <p>Change dates in YYYY-MM-DD format, then commit the changes</p>
+        </div>
+        <div class="bg-purple-50 p-4 rounded-lg">
+          <h4 class="font-bold mb-2">Step 4: Refresh</h4>
+          <p>Refresh this page on any computer to see the updated dates!</p>
+        </div>
+      </div>
+      <div class="flex justify-end mt-6">
+        <button id="close-info" class="bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded transition-colors">Got it!</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="rocks.js"></script>
+  <script>
+    let events = [];
+    let renewalsData = null;
+
+    // Load renewal events from renewals.json
+    async function loadRenewalEvents() {
+      try {
+        const response = await fetch('renewals.json');
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        renewalsData = await response.json();
+        events = renewalsData.events || [];
+        console.log('✅ Loaded renewal events from renewals.json:', events.length, 'events');
+      } catch (error) {
+        console.warn('⚠️ Could not load renewals.json, using fallback data:', error);
+        // Fallback data if renewals.json doesn't exist
+        events = [
+          { name: "Altium", date: "2025-10-31" },
+          { name: "Zeta", date: "2025-12-31" },
+          { name: "HH", date: "2025-12-31" },
+          { name: "Camfil", date: "2025-12-31" },
+          { name: "2026 Calendar", date: "2025-10-31" },
+          { name: "IPA", date: "2025-12-31" },
+          { name: "Northwest", date: "2025-12-31" },
+          { name: "Kimley", date: "2026-01-31" },
+          { name: "Cars", date: "2026-04-01" },
+          { name: "GBG", date: "2026-06-01" },
+          { name: "Merchology", date: "2025-12-31" },
+          { name: "TradeSchool", date: "2026-02-01" },
+          { name: "MRP", date: "2026-02-02" },
+          { name: "Dornier", date: "2026-04-01" }
+        ];
+      }
+    }
+
+    function renderTimers() {
+      // Sort events by date
+      events.sort((a, b) => new Date(a.date) - new Date(b.date));
+      
+      const timersDiv = document.getElementById("timers");
+      timersDiv.innerHTML = "";
+      
+      events.forEach((event, index) => {
+        const div = document.createElement("div");
+        div.className = "bg-white text-[#003057] p-4 rounded shadow-md flex justify-between items-center text-sm md:text-base";
+        div.innerHTML = `
+          <span class="font-semibold">${event.name}</span>
+          <span id="timer-${index}" class="countdown text-blue-600 font-medium"></span>
+        `;
+        timersDiv.appendChild(div);
+      });
+      
+      updateTimers();
+    }
+
+    function updateTimers() {
+      const now = new Date();
+      const todayUTC = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate()));
+      
+      events.forEach((event, index) => {
+        const el = document.getElementById("timer-" + index);
+        if (!el) return;
+        
+        const targetUTC = new Date(event.date + "T00:00:00Z");
+        const diff = targetUTC - todayUTC;
+        const days = Math.max(0, Math.floor(diff / (1000 * 60 * 60 * 24)));
+        
+        el.textContent = days + " day" + (days !== 1 ? "s" : "") + " left";
+        
+        // Color coding: red if 90 days or less, blue otherwise
+        if (days <= 90) {
+          el.style.color = "#dc2626";
+          el.classList.add("font-bold");
+        } else {
+          el.style.color = "#2563eb";
+          el.classList.remove("font-bold");
+        }
+      });
+    }
+
+    function initInfoModal() {
+      const infoIcon = document.getElementById("info-icon");
+      const infoModal = document.getElementById("info-modal");
+      const closeInfo = document.getElementById("close-info");
+
+      infoIcon.addEventListener("click", () => {
+        infoModal.classList.remove("hidden");
+        infoModal.classList.add("flex");
+      });
+
+      closeInfo.addEventListener("click", () => {
+        infoModal.classList.add("hidden");
+        infoModal.classList.remove("flex");
+      });
+
+      // Close modal when clicking outside
+      infoModal.addEventListener("click", (e) => {
+        if (e.target.id === "info-modal") {
+          infoModal.classList.add("hidden");
+          infoModal.classList.remove("flex");
+        }
+      });
+    }
+
+    // Rocks rendering
+    function renderRocks() {
+      const pipelineList = document.getElementById("pipeline-list");
+      const leadsList = document.getElementById("leads-list");
+      const renewalsList = document.getElementById("renewals-list");
+      
+      if (typeof rocks !== 'undefined') {
+        if (rocks.pipeline) {
+          rocks.pipeline.forEach(item => {
+            const li = document.createElement("li");
+            li.textContent = item;
+            pipelineList.appendChild(li);
+          });
+        }
+        
+        if (rocks.leads) {
+          rocks.leads.forEach(item => {
+            const li = document.createElement("li");
+            li.textContent = item;
+            leadsList.appendChild(li);
+          });
+        }
+        
+        if (rocks.renewals) {
+          rocks.renewals.forEach(item => {
+            const li = document.createElement("li");
+            li.textContent = item;
+            renewalsList.appendChild(li);
+          });
+        }
+      } else {
+        console.warn('⚠️ rocks.js not loaded or rocks object not found');
+      }
+    }
+
+    // Rules rotation
+    const rules = [
+      "Protect the brand.",
+      "Be a product of the product.",
+      "Do the behavior.",
+      "Don't get creative.",
+      "No drama."
+    ];
+    
+    let currentRule = 0;
+    
+    function rotateRules() {
+      const quoteElement = document.getElementById("quote");
+      if (quoteElement) {
+        quoteElement.textContent = rules[currentRule];
+        currentRule = (currentRule + 1) % rules.length;
+      }
+    }
+
+    // Quarter countdown
+    function getNextQuarterEnd(date) {
+      const year = date.getFullYear();
+      const quarters = [
+        new Date(year, 2, 31),  // Q1 end (March 31)
+        new Date(year, 5, 30),  // Q2 end (June 30)
+        new Date(year, 8, 30),  // Q3 end (September 30)
+        new Date(year, 11, 31)  // Q4 end (December 31)
+      ];
+      
+      return quarters.find(q => q >= date) || new Date(year + 1, 2, 31);
+    }
+
+    function updateQuarterCountdown() {
+      const now = new Date();
+      const quarterEnd = getNextQuarterEnd(now);
+      const todayUTC = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate()));
+      const targetUTC = new Date(Date.UTC(quarterEnd.getFullYear(), quarterEnd.getMonth(), quarterEnd.getDate()));
+      const diff = targetUTC - todayUTC;
+      const days = Math.max(0, Math.floor(diff / (1000 * 60 * 60 * 24)));
+      
+      const countdownElement = document.getElementById("quarter-countdown");
+      if (countdownElement) {
+        countdownElement.textContent = days + " day" + (days !== 1 ? "s" : "") + " until quarter end";
+      }
+    }
+
+    // Initialize everything when DOM is loaded
+    document.addEventListener("DOMContentLoaded", async () => {
+      await loadRenewalEvents();
+      renderRocks();
+      renderTimers();
+      initInfoModal();
+      rotateRules();
+      updateQuarterCountdown();
+      
+      // Set up intervals
+      setInterval(updateTimers, 60000); // Update every minute
+      setInterval(rotateRules, 5000);
+      setInterval(updateQuarterCountdown, 3600000); // Update every hour
+    });
+  </script>
+</body>
+</html>
